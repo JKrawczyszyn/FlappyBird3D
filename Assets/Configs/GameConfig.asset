@@ -13,7 +13,17 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: 
   frameRate: -1
-  maxBirdSpeed: 5
-  birdJumpForce: 4
-  birdMass: 0.2
   gravity: 40
+  acceleration: 2
+  birdConfig:
+    maxSpeed: 5
+    jumpForce: 3
+    mass: 0.2
+  wallsConfig:
+    interval: 100
+    loop: 2
+  obstaclesConfig:
+    spawnDistance: 200
+    freeDistance: 30
+    intervalDistance: 20
+    startSpeed: 10

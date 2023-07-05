@@ -3,39 +3,46 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-namespace Game.Controllers
+namespace Fp.Game.Controllers
 {
     public class BirdController : ITickable, IDisposable
     {
-        public event Action<float> OnSetMass;
+        public event Action OnStartGravity;
         public event Action<Vector3, ForceMode> OnAddForce;
-        public event Action<float> OnSetVelocityX;
         public event Action<float> OnSetVelocityY;
         public event Action<float> OnClampVelocityX;
 
         [Inject]
-        private GameConfig config;
+        private GameConfig gameConfig;
 
         [Inject]
-        private GameControls controls;
+        private GameControls gameControls;
 
-        public void Init()
+        public float Mass => gameConfig.birdConfig.mass;
+
+        [Inject]
+        public void Construct()
         {
-            OnSetMass?.Invoke(config.birdMass);
+            gameControls.Map.Jump.performed += Jump;
+        }
 
-            controls.Map.Jump.performed += Jump;
-            controls.Map.Enable();
+        public void Start()
+        {
+            gameControls.Map.Jump.Enable();
+            gameControls.Map.Move.Enable();
+
+            OnStartGravity?.Invoke();
         }
 
         private void Jump(InputAction.CallbackContext _)
         {
             OnSetVelocityY?.Invoke(0f);
-            OnAddForce?.Invoke(Vector3.up * config.birdJumpForce, ForceMode.Impulse);
+            OnAddForce?.Invoke(Vector3.up * gameConfig.birdConfig.jumpForce, ForceMode.Impulse);
         }
 
         public void Tick()
         {
-            var moveAction = controls.Map.Move;
+            var moveAction = gameControls.Map.Move;
             if (moveAction.IsPressed())
                 Move(moveAction.ReadValue<float>() * Time.deltaTime);
         }
@@ -45,20 +52,18 @@ namespace Game.Controllers
             // Debug.Log(">>> Move: " + value);
 
             OnAddForce?.Invoke(Vector3.right * value, ForceMode.Impulse);
-            OnClampVelocityX?.Invoke(config.maxBirdSpeed);
+            OnClampVelocityX?.Invoke(gameConfig.birdConfig.maxSpeed);
         }
 
-        public void TriggerEnter(Collision other)
+        public void BirdCollision(Collision other)
         {
-            Debug.Log(">>> TriggerEnter: " + other.collider.tag);
-
-            // OnSetVelocityX?.Invoke(0f);
+            Debug.Log(">>> BirdCollision: " + other.collider.tag);
         }
 
         public void Dispose()
         {
-            controls.Map.Jump.performed -= Jump;
-            controls.Map.Disable();
+            gameControls.Map.Jump.performed -= Jump;
+            gameControls.Map.Disable();
         }
     }
 }

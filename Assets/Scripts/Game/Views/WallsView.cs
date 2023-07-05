@@ -1,24 +1,55 @@
 using Cysharp.Threading.Tasks;
+using Fp.Game.Controllers;
 using UnityEngine;
+using Fp.Utilities.Assets;
 using Zenject;
 
-public class WallsView : MonoBehaviour
+namespace Fp.Game.Views
 {
-    private const string assetName = "Walls";
-
-    [SerializeField]
-    private InfiniteLoopView wallsLoopView;
-
-    [Inject]
-    private WallsAssetManager wallsManager;
-
-    [Inject]
-    public async UniTaskVoid Construct()
+    public class WallsView : MonoBehaviour
     {
-        await wallsManager.CacheReference(assetName);
+        [SerializeField]
+        private InfiniteLoopView loopView;
 
-        wallsLoopView.Init(assetName, 100, 3, wallsManager);
+        [Inject]
+        private AssetsProvider assetsProvider;
 
-        wallsLoopView.Speed = 10;
+        [Inject]
+        private GameConfig gameConfig;
+
+        [Inject]
+        private AssetsRepository assetsRepository;
+
+        [Inject]
+        private GameController gameController;
+
+        private string[] assetNames;
+
+        private WallsConfig Config => gameConfig.wallsConfig;
+
+        [Inject]
+        public async UniTaskVoid Construct()
+        {
+            assetNames = assetsRepository.AssetNames(AssetTag.Walls);
+
+            await assetsProvider.CacheReferences<Walls>(assetNames);
+
+            gameController.OnGameStarted += StartMove;
+
+            loopView.Init(assetNames.GetRandom(), Config.interval, Config.loop, CreateWall);
+        }
+
+        private GameObject CreateWall(string name, Vector3 position, Transform parent) =>
+            assetsProvider.Instantiate<Walls>(name, position, parent).gameObject;
+
+        private void StartMove()
+        {
+            loopView.StartMove();
+        }
+
+        private void OnDestroy()
+        {
+            gameController.OnGameStarted -= StartMove;
+        }
     }
 }

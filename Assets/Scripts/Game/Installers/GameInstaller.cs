@@ -1,20 +1,34 @@
-using Game.Controllers;
+using Fp.Game.Controllers;
 using UnityEngine;
 using Zenject;
 
-public class GameInstaller : MonoInstaller<GameInstaller>
+namespace Fp.Game.Installers
 {
-    [SerializeField]
-    private GameConfig gameConfig;
-
-    public override void InstallBindings()
+    public class GameInstaller : MonoInstaller<GameInstaller>
     {
-        Container.BindInstance(gameConfig);
-        Container.BindInstance(new GameControls());
+        [SerializeField]
+        private GameConfig gameConfig;
 
-        Container.BindInterfacesAndSelfTo<BirdController>().AsSingle();
+        [SerializeField]
+        private AssetsRepository assetsRepository;
 
-        Application.targetFrameRate = gameConfig.frameRate;
-        Physics.gravity = Vector3.down * gameConfig.gravity;
+        public override void InstallBindings()
+        {
+            SetGlobalConfigs();
+
+            Container.BindInstance(gameConfig);
+            Container.BindInstance(assetsRepository);
+            Container.BindInstance(new GameControls());
+
+            Container.BindInterfacesAndSelfTo<BirdController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SpeedController>().AsSingle();
+        }
+
+        private void SetGlobalConfigs()
+        {
+            Application.targetFrameRate = gameConfig.frameRate;
+            Physics.gravity = Vector3.down * gameConfig.gravity;
+        }
     }
 }

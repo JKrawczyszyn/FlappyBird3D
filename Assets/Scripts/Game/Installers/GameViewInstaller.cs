@@ -1,19 +1,24 @@
+using Fp.Game.Views;
 using UnityEngine;
+using Fp.Utilities.Assets;
 using Zenject;
 
-public class GameViewInstaller : MonoInstaller<GameViewInstaller>
+namespace Fp.Game.Installers
 {
-    [SerializeField]
-    private Camera camera;
-
-    [SerializeField]
-    private WallsView wallsView;
-
-    public override void InstallBindings()
+    public class GameViewInstaller : MonoInstaller<GameViewInstaller>
     {
-        Container.BindInstance(camera);
-        Container.BindInstance(wallsView);
+        [SerializeField]
+        private Camera camera;
 
-        Container.Bind<WallsAssetManager>().AsSingle();
+        [SerializeField]
+        private WallsView wallsView;
+
+        public override void InstallBindings()
+        {
+            Container.BindInstance(camera);
+            Container.BindInstance(wallsView);
+
+            Container.Bind<AssetsProvider>().AsSingle();
+        }
     }
 }
