@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Fp.Game.Views
+namespace Game.Views
 {
     public class Walls : MonoBehaviour
     {

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using Fp.Game.Controllers;
+using Game.Controllers;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Fp.Utilities.Assets;
+using Utilities;
 using Zenject;
 
-namespace Fp.Game.Views
+namespace Game.Views
 {
     public class ObstaclesView : MonoBehaviour
     {
@@ -45,8 +45,12 @@ namespace Fp.Game.Views
 
         private int Count => Config.spawnDistance / Config.intervalDistance;
 
-        [Inject]
-        public async UniTaskVoid Construct()
+        private void Start()
+        {
+            Initialize().Forget();
+        }
+
+        private async UniTaskVoid Initialize()
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Obstacle);
 

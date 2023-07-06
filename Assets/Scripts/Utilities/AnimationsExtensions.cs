@@ -1,21 +1,24 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public static class AnimationsExtensions
+namespace Utilities
 {
-    public static async UniTask AnimateAlpha(this CanvasGroup image, float start, float end, float timeSeconds)
+    public static class AnimationsExtensions
     {
-        var startTime = Time.time;
-        var endTime = startTime + timeSeconds;
-
-        while (Time.time < endTime)
+        public static async UniTask AnimateAlpha(this CanvasGroup image, float start, float end, float timeSeconds)
         {
-            var fraction = (Time.time - startTime) / timeSeconds;
-            image.alpha = Mathf.Lerp(start, end, fraction);
+            var startTime = Time.time;
+            var endTime = startTime + timeSeconds;
 
-            await UniTask.NextFrame();
+            while (Time.time < endTime)
+            {
+                var fraction = (Time.time - startTime) / timeSeconds;
+                image.alpha = Mathf.Lerp(start, end, fraction);
+
+                await UniTask.NextFrame();
+            }
+
+            image.alpha = end;
         }
-
-        image.alpha = end;
     }
 }

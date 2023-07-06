@@ -31,3 +31,7 @@ MonoBehaviour:
     name: ObstacleUpDown
   - tag: 3
     name: ObstacleLeftRight
+  - tag: 4
+    name: MenuButton
+  - tag: 5
+    name: MenuText

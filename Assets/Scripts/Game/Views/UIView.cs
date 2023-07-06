@@ -1,12 +1,11 @@
 using Cysharp.Threading.Tasks;
-using Fp.Game.Controllers;
-using Fp.Utilities.Assets;
+using Game.Controllers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Utilities;
 using Zenject;
 
-namespace Fp.Game.Views
+namespace Game.Views
 {
     public class UIView : MonoBehaviour
     {
@@ -17,7 +16,7 @@ namespace Fp.Game.Views
         private TextMeshProUGUI scoreText;
 
         [Inject]
-        private GameControls gameControls;
+        private GameInputController gameInputController;
 
         [Inject]
         private AssetsRepository assetsRepository;
@@ -28,8 +27,12 @@ namespace Fp.Game.Views
         [Inject]
         private AssetsProvider assetsProvider;
 
-        [Inject]
-        public async UniTaskVoid Construct()
+        private void Start()
+        {
+            Initialize().Forget();
+        }
+
+        private async UniTaskVoid Initialize()
         {
             await assetsProvider.WaitForCache(
                 assetsRepository.AssetNames(new[] { AssetTag.Bird, AssetTag.Walls, AssetTag.Obstacle, }));
@@ -38,18 +41,19 @@ namespace Fp.Game.Views
 
             loadingPanel.gameObject.SetActive(false);
 
-            gameControls.Map.Interact.performed += Interact;
-            gameControls.Map.Interact.Enable();
+            gameInputController.OnInteract += Interact;
+            gameInputController.InteractionEnable();
         }
 
-        private void Interact(InputAction.CallbackContext _)
+        private void Interact()
         {
             gameController.StartGame();
+            gameInputController.InteractionDisable();
         }
 
-        private void OnDestroy()
+        public void OnDestroy()
         {
-            gameControls.Map.Interact.performed -= Interact;
+            gameInputController.OnInteract -= Interact;
         }
     }
 }

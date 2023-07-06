@@ -1,13 +1,12 @@
 using System;
 using UnityEngine;
+using Utilities;
 using Zenject;
 
-namespace Fp.Game.Controllers
+namespace Game.Controllers
 {
-    public class SpeedController : ITickable
+    public class SpeedController : IController, ITickable
     {
-        private const float tolerance = 0.0001f;
-
         public event Action<float> OnSpeedChanged;
 
         private float targetSpeed, currentSpeed;
@@ -22,7 +21,7 @@ namespace Fp.Game.Controllers
 
         public void Tick()
         {
-            if (Math.Abs(currentSpeed - targetSpeed) < tolerance)
+            if (Math.Abs(currentSpeed - targetSpeed) < Constants.FloatComparisonDelta)
                 return;
 
             currentSpeed += Mathf.Sign(targetSpeed - currentSpeed) * gameConfig.acceleration * Time.deltaTime;

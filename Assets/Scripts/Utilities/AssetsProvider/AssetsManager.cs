@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace Fp.Utilities.Assets
+namespace Utilities
 {
     internal interface IAssetsManager
     {
@@ -113,6 +113,9 @@ namespace Fp.Utilities.Assets
                 return;
             }
 
+            if (nameToReference.ContainsKey(reference.AssetGUID))
+                return;
+
             if (referenceToPool.ContainsKey(reference))
             {
                 Assert.IsTrue(nameToReference.ContainsKey(reference.Asset.name),
@@ -125,10 +128,10 @@ namespace Fp.Utilities.Assets
 
             await LoadReference(reference);
 
-            referenceToPool.Add(reference, CreatePool(reference));
+            Assert.AreEqual(reference.AssetGUID, reference.Asset.name, "AssetGUID != name");
 
-            if (!nameToReference.ContainsKey(reference.Asset.name))
-                nameToReference.Add(reference.Asset.name, reference);
+            referenceToPool.Add(reference, CreatePool(reference));
+            nameToReference.Add(reference.Asset.name, reference);
         }
 
         private async UniTask LoadReference(AssetReference reference)
@@ -155,10 +158,11 @@ namespace Fp.Utilities.Assets
                 var referenceAsset = reference.Asset as GameObject;
                 Assert.IsNotNull(referenceAsset, $"Reference '{reference}' is not a GameObject.");
 
-                GameObject go = Object.Instantiate(referenceAsset);
+                var go = Object.Instantiate(referenceAsset);
+
                 Assert.IsNotNull(go, $"Can't instantiate GameObject from '{referenceAsset}'.");
 
-                bool success = go.TryGetComponent(out T component);
+                var success = go.TryGetComponent(out T component);
                 Assert.IsTrue(success, $"No BoardElement component found in '{go}'.");
 
                 go.name = NormalizeName(go.name);
@@ -187,10 +191,7 @@ namespace Fp.Utilities.Assets
 
         public void Dispose()
         {
-            if (referenceToPool == null)
-                return;
-
-            foreach (AssetReference reference in referenceToPool.Keys)
+            foreach (var reference in referenceToPool.Keys)
             {
                 if (reference.IsValid())
                     reference.ReleaseAsset();

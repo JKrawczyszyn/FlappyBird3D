@@ -1,12 +1,9 @@
 using UnityEngine;
 
-namespace Fp.Game.Views
+namespace Game.Views
 {
     public class GameView : MonoBehaviour
     {
-        [SerializeField]
-        private Bird bird;
-
         [SerializeField]
         private WallsView wallsView;
 

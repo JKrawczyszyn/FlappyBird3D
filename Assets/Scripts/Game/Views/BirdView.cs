@@ -1,17 +1,17 @@
 ﻿using Cysharp.Threading.Tasks;
-using Fp.Utilities.Assets;
 using UnityEngine;
+using Utilities;
 using Zenject;
 
-namespace Fp.Game.Views
+namespace Game.Views
 {
     public class BirdView : MonoBehaviour
     {
         [SerializeField]
-        private SceneContext context;
-
-        [SerializeField]
         private Transform container;
+
+        [Inject]
+        private Context context;
 
         [Inject]
         private AssetsRepository assetsRepository;
@@ -24,18 +24,23 @@ namespace Fp.Game.Views
 
         private string[] assetNames;
 
-        [Inject]
-        public async UniTaskVoid Construct()
+        private Bird bird;
+
+        private void Start()
+        {
+            Initialize().Forget();
+        }
+
+        private async UniTaskVoid Initialize()
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Bird);
 
             await assetsProvider.CacheReferences<Bird>(assetNames);
 
-            var instance
-                = assetsProvider.Instantiate<Bird>(assetNames.GetRandom(), gameConfig.birdConfig.startPosition,
-                                                   container);
+            bird = assetsProvider.Instantiate<Bird>(assetNames.GetRandom(), gameConfig.birdConfig.startPosition,
+                                                    container);
 
-            context.Container.Inject(instance);
+            context.Container.Inject(bird);
         }
     }
 }

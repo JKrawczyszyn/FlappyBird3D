@@ -31,4 +31,6 @@ public enum AssetTag
     Bird,
     Walls,
     Obstacle,
+    MenuButton,
+    MenuText,
 }

@@ -1,69 +1,73 @@
 using System;
+using Entry.Controllers;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Zenject;
 
-namespace Fp.Game.Controllers
+namespace Game.Controllers
 {
-    public class BirdController : ITickable, IDisposable
+    public class BirdController : IController, ITickable, IDisposable
     {
-        public event Action OnStartGravity;
-        public event Action<Vector3, ForceMode> OnAddForce;
-        public event Action<float> OnSetVelocityY;
-        public event Action<float> OnClampVelocityX;
-
         [Inject]
         private GameConfig gameConfig;
 
         [Inject]
-        private GameControls gameControls;
-
-        public float Mass => gameConfig.birdConfig.mass;
+        private GameInputController gameInputController;
 
         [Inject]
-        public void Construct()
+        private GameFlowController gameFlowController;
+
+        private Rigidbody rigidbody;
+
+        public void Initialize(Rigidbody rigidbody)
         {
-            gameControls.Map.Jump.performed += Jump;
+            this.rigidbody = rigidbody;
+
+            rigidbody.useGravity = false;
+            rigidbody.mass = gameConfig.birdConfig.mass;
+
+            gameInputController.OnBirdJump += Jump;
         }
 
         public void Start()
         {
-            gameControls.Map.Jump.Enable();
-            gameControls.Map.Move.Enable();
+            gameInputController.BirdEnable();
 
-            OnStartGravity?.Invoke();
+            rigidbody.useGravity = true;
         }
 
-        private void Jump(InputAction.CallbackContext _)
+        private void Jump()
         {
-            OnSetVelocityY?.Invoke(0f);
-            OnAddForce?.Invoke(Vector3.up * gameConfig.birdConfig.jumpForce, ForceMode.Impulse);
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, 0f);
+            rigidbody.AddForce(Vector3.up * gameConfig.birdConfig.jumpForce, ForceMode.Impulse);
         }
 
         public void Tick()
         {
-            var moveAction = gameControls.Map.Move;
-            if (moveAction.IsPressed())
-                Move(moveAction.ReadValue<float>() * Time.deltaTime);
+            var value = gameInputController.BirdMoveValue();
+            if (value != 0f)
+                Move(value * Time.deltaTime);
         }
 
         private void Move(float value)
         {
             // Debug.Log(">>> Move: " + value);
 
-            OnAddForce?.Invoke(Vector3.right * value, ForceMode.Impulse);
-            OnClampVelocityX?.Invoke(gameConfig.birdConfig.maxSpeed);
+            rigidbody.AddForce(Vector3.right * value, ForceMode.Impulse);
+            rigidbody.velocity
+                = new Vector3(
+                    Mathf.Clamp(rigidbody.velocity.x, -gameConfig.birdConfig.maxSpeed, gameConfig.birdConfig.maxSpeed),
+                    rigidbody.velocity.y, 0f);
         }
 
         public void BirdCollision(Collision other)
         {
-            Debug.Log(">>> BirdCollision: " + other.collider.tag);
+            gameFlowController.LostGame();
         }
 
         public void Dispose()
         {
-            gameControls.Map.Jump.performed -= Jump;
-            gameControls.Map.Disable();
+            gameInputController.OnBirdJump -= Jump;
+            gameInputController.BirdDisable();
         }
     }
 }

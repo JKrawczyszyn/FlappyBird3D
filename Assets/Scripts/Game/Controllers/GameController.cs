@@ -1,9 +1,9 @@
 using System;
 using Zenject;
 
-namespace Fp.Game.Controllers
+namespace Game.Controllers
 {
-    public class GameController
+    public class GameController : IController
     {
         public event Action OnGameStarted;
 

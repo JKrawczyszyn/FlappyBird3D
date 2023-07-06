@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
-using Fp.Game.Controllers;
+using Game.Controllers;
 using UnityEngine;
-using Fp.Utilities.Assets;
+using Utilities;
 using Zenject;
 
-namespace Fp.Game.Views
+namespace Game.Views
 {
     public class WallsView : MonoBehaviour
     {
@@ -27,8 +27,12 @@ namespace Fp.Game.Views
 
         private WallsConfig Config => gameConfig.wallsConfig;
 
-        [Inject]
-        public async UniTaskVoid Construct()
+        private void Start()
+        {
+            Initialize().Forget();
+        }
+
+        private async UniTaskVoid Initialize()
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Walls);
 
@@ -36,7 +40,7 @@ namespace Fp.Game.Views
 
             gameController.OnGameStarted += StartMove;
 
-            loopView.Init(assetNames.GetRandom(), Config.interval, Config.loop, CreateWall);
+            loopView.Initialize(assetNames.GetRandom(), Config.interval, Config.loop, CreateWall);
         }
 
         private GameObject CreateWall(string name, Vector3 position, Transform parent) =>

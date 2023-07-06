@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Fp.Utilities.Assets
+namespace Utilities
 {
     public class AssetsProvider
     {
@@ -62,7 +62,6 @@ namespace Fp.Utilities.Assets
 
             do
             {
-                Debug.Log("WaitForCache");
                 cachedNames.Clear();
 
                 foreach (KeyValuePair<Type, IAssetsManager> pair in managers)

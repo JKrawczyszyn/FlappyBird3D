@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Fp.Game.Controllers;
+using Game.Controllers;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;
 
-namespace Fp.Game.Views
+namespace Game.Views
 {
     public class InfiniteLoopView : MonoBehaviour
     {
@@ -25,10 +25,10 @@ namespace Fp.Game.Views
 
         private readonly List<GameObject> elements = new();
 
-        public void Init(string assetName,
-                         int interval,
-                         int loopLength,
-                         Func<string, Vector3, Transform, GameObject> createCallback)
+        public void Initialize(string assetName,
+                               int interval,
+                               int loopLength,
+                               Func<string, Vector3, Transform, GameObject> createCallback)
         {
             this.interval = interval;
             this.loopLength = loopLength;
@@ -82,7 +82,7 @@ namespace Fp.Game.Views
             started = true;
         }
 
-        private void OnDestroy()
+        public void OnDestroy()
         {
             speedController.OnSpeedChanged -= SpeedChanged;
         }

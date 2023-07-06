@@ -1,8 +1,8 @@
 {
-    "name": "GameControls",
+    "name": "InputControls",
     "maps": [
         {
-            "name": "Map",
+            "name": "Game",
             "id": "02642bbc-ed54-4936-a205-4ca61d08da59",
             "actions": [
                 {
@@ -152,6 +152,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "691ff81d-d291-4551-bfbd-989df0721a15",
+            "actions": [
+                {
+                    "name": "OpenClose",
+                    "type": "Button",
+                    "id": "e0798320-c5a9-44e8-af8b-4494fcfa8f27",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9ba7aa0b-ccb9-4c5d-a869-15882e090f60",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenClose",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

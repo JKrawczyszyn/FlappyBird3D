@@ -11,7 +11,6 @@ public class GameConfig : ScriptableObject
     public BirdConfig birdConfig;
     public WallsConfig wallsConfig;
     public ObstaclesConfig obstaclesConfig;
-
 }
 
 [Serializable]
