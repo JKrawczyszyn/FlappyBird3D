@@ -26,12 +26,8 @@ namespace Game.Views
 
         private Bird bird;
 
-        private void Start()
-        {
-            Initialize().Forget();
-        }
-
-        private async UniTaskVoid Initialize()
+        [Inject]
+        private async UniTaskVoid Construct()
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Bird);
 

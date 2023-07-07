@@ -27,18 +27,14 @@ namespace Game.Views
 
         private WallsConfig Config => gameConfig.wallsConfig;
 
-        private void Start()
+        [Inject]
+        private async UniTaskVoid Construct()
         {
-            Initialize().Forget();
-        }
+            gameController.OnGameStarted += StartMove;
 
-        private async UniTaskVoid Initialize()
-        {
             assetNames = assetsRepository.AssetNames(AssetTag.Walls);
 
             await assetsProvider.CacheReferences<Walls>(assetNames);
-
-            gameController.OnGameStarted += StartMove;
 
             loopView.Initialize(assetNames.GetRandom(), Config.interval, Config.loop, CreateWall);
         }

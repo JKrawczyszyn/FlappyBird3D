@@ -8,9 +8,16 @@ public class GameConfig : ScriptableObject
     public float gravity = 40;
     public float acceleration = 2f;
 
+    public GameplayConfig gameplayConfig;
     public BirdConfig birdConfig;
     public WallsConfig wallsConfig;
     public ObstaclesConfig obstaclesConfig;
+}
+
+[Serializable]
+public class GameplayConfig
+{
+    public float countdownTime = 5f;
 }
 
 [Serializable]

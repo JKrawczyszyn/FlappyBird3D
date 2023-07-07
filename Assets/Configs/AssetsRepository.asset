@@ -14,24 +14,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assets:
   - tag: 1
+    sceneTags: 02000000
     name: Bird
   - tag: 1
+    sceneTags: 02000000
     name: Bird2
   - tag: 2
+    sceneTags: 02000000
     name: Walls
   - tag: 3
+    sceneTags: 02000000
     name: ObstacleDown
   - tag: 3
+    sceneTags: 02000000
     name: ObstacleUp
   - tag: 3
+    sceneTags: 02000000
     name: ObstacleLeft
   - tag: 3
+    sceneTags: 02000000
     name: ObstacleRight
   - tag: 3
+    sceneTags: 02000000
     name: ObstacleUpDown
   - tag: 3
+    sceneTags: 02000000
     name: ObstacleLeftRight
   - tag: 4
+    sceneTags: 01000000
     name: MenuButton
   - tag: 5
+    sceneTags: 01000000
     name: MenuText

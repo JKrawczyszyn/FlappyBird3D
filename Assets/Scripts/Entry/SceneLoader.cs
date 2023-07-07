@@ -1,28 +1,53 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utilities;
+using Zenject;
 
 namespace Entry
 {
     public class SceneLoader
     {
-        public UniTask Load(string name)
-        {
-            Debug.Log($"Loading scene '{name}'.");
+        public event Func<UniTask> OnSceneLoadEnd;
+        public event Func<UniTask> OnSceneUnloadStart;
 
-            return SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive).ToUniTask();
+        [Inject]
+        private AssetsRepository assetsRepository;
+
+        [Inject]
+        private AssetsProvider assetsProvider;
+
+        public async UniTask Load(SceneName name)
+        {
+            var nameString = name.ToString();
+
+            Debug.Log($"Loading scene '{nameString}'.");
+
+            await SceneManager.LoadSceneAsync(nameString, LoadSceneMode.Additive);
+
+            await assetsProvider.WaitForCache(assetsRepository.AssetNamesForScene(name));
+
+            if (OnSceneLoadEnd != null)
+                await OnSceneLoadEnd();
         }
 
-        public UniTask Unload(string name)
+        public async UniTask Unload(SceneName name)
         {
-            var scene = SceneManager.GetSceneByName(name);
+            var nameString = name.ToString();
 
+            var scene = SceneManager.GetSceneByName(nameString);
             if (!scene.isLoaded)
-                return UniTask.CompletedTask;
+                return;
 
-            Debug.Log($"Unloading scene '{name}'.");
+            Debug.Log($"Unloading scene '{nameString}'.");
 
-            return SceneManager.UnloadSceneAsync(name).ToUniTask();
+            if (OnSceneUnloadStart != null)
+                await OnSceneUnloadStart();
+
+            assetsProvider.ClearPools();
+
+            await SceneManager.UnloadSceneAsync(nameString);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Utilities
     internal interface IAssetsManager
     {
         IEnumerable<string> CachedNames { get; }
+        void ClearPools();
     }
 
     internal class AssetsManager<T> : IDisposable, IAssetsManager where T : Component
@@ -187,6 +188,12 @@ namespace Utilities
             }
 
             return pool;
+        }
+
+        public void ClearPools()
+        {
+            foreach (var pool in referenceToPool.Values)
+                pool.Clear();
         }
 
         public void Dispose()

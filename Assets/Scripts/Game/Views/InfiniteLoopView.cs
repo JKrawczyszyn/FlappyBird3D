@@ -25,6 +25,12 @@ namespace Game.Views
 
         private readonly List<GameObject> elements = new();
 
+        [Inject]
+        private void Construct()
+        {
+            speedController.OnSpeedChanged += SpeedChanged;
+        }
+
         public void Initialize(string assetName,
                                int interval,
                                int loopLength,
@@ -32,8 +38,6 @@ namespace Game.Views
         {
             this.interval = interval;
             this.loopLength = loopLength;
-
-            speedController.OnSpeedChanged += SpeedChanged;
 
             CreateElements(createCallback, assetName);
 

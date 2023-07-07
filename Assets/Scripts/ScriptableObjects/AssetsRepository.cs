@@ -16,12 +16,18 @@ public class AssetsRepository : ScriptableObject
 
         return assets.Where(a => hashSet.Contains(a.tag)).Select(a => a.name).ToArray();
     }
+
+    public string[] AssetNamesForScene(SceneName name) =>
+        assets.Where(a => a.sceneTags.Contains(name)).Select(a => a.name).ToArray();
+
+    public Asset[] AssetsForScene(SceneName menu) => assets.Where(a => a.sceneTags.Contains(menu)).ToArray();
 }
 
 [Serializable]
 public struct Asset
 {
     public AssetTag tag;
+    public SceneName[] sceneTags;
     public string name;
 }
 
@@ -33,4 +39,11 @@ public enum AssetTag
     Obstacle,
     MenuButton,
     MenuText,
+}
+
+public enum SceneName
+{
+    None,
+    Menu,
+    Game,
 }

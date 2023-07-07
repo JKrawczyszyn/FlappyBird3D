@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7963911347491665394}
   m_Layer: 0
   m_Name: Element
-  m_TagString: wall
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 779862353262146786}
   m_Layer: 0
   m_Name: Element_1
-  m_TagString: wall
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -256,3 +256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d194ac89230f4f559638d782feee2368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderers:
+  - {fileID: 5978858957680458602}
+  - {fileID: 8971576468803683277}

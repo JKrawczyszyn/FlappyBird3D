@@ -77,5 +77,14 @@ namespace Utilities
 
             } while (!cachedNames.IsSupersetOf(names));
         }
+
+        public void ClearPools()
+        {
+            foreach (KeyValuePair<Type, IAssetsManager> pair in managers)
+            {
+                var manager = pair.Value;
+                manager.ClearPools();
+            }
+        }
     }
 }

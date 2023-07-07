@@ -1,29 +1,38 @@
-using Utilities;
+using System;
+using Utilities.FSM;
 using Zenject;
 
 namespace Entry.Controllers
 {
-    public class GameFlowController
+    public class GameFlowController : IDisposable
     {
         [Inject]
-        private readonly StateMachine<GameFlowState> stateMachine;
+        private SceneLoader sceneLoader;
 
-        public void LostGame()
+        [Inject]
+        private readonly StateMachine<FlowState> stateMachine;
+
+        public void Initialize()
         {
-            stateMachine.Push<LostGameState>();
-            stateMachine.Perform();
+            stateMachine.RequestTransition<LoadMenuState>();
+            stateMachine.Start();
         }
 
-        public void StartGame()
+        public void LoadGame()
         {
-            stateMachine.Push<PlayGameState>();
-            stateMachine.Perform();
+            stateMachine.RequestTransition<LoadGameState>();
+            stateMachine.Start();
         }
 
-        public void Back()
+        public void LostGame(int score)
         {
-            stateMachine.Pop();
-            stateMachine.Perform();
+            stateMachine.RequestTransition<LostGameState>();
+            stateMachine.Start();
+        }
+
+        public void Dispose()
+        {
+            stateMachine.Stop();
         }
     }
 }

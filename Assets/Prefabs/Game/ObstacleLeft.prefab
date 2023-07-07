@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d194ac89230f4f559638d782feee2368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderers:
+  - {fileID: 5461683499880086694}
 --- !u!1 &8671740146920918648
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +61,7 @@ GameObject:
   - component: {fileID: 4580229887151979189}
   m_Layer: 0
   m_Name: Element
-  m_TagString: wall
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

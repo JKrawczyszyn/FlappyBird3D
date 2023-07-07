@@ -12,7 +12,8 @@ namespace Game.Views
         [Inject]
         private BirdController controller;
 
-        private void Start()
+        [Inject]
+        private void Construct()
         {
             controller.Initialize(rigidbody);
         }

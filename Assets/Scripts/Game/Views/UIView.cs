@@ -10,50 +10,37 @@ namespace Game.Views
     public class UIView : MonoBehaviour
     {
         [SerializeField]
-        private CanvasGroup loadingPanel;
-
-        [SerializeField]
         private TextMeshProUGUI scoreText;
 
-        [Inject]
-        private GameInputController gameInputController;
-
-        [Inject]
-        private AssetsRepository assetsRepository;
+        [SerializeField]
+        private TextMeshProUGUI countdownText;
 
         [Inject]
         private GameController gameController;
 
         [Inject]
-        private AssetsProvider assetsProvider;
-
-        private void Start()
+        public void Construct()
         {
-            Initialize().Forget();
+            gameController.OnCountdownStart += CountdownStart;
         }
 
-        private async UniTaskVoid Initialize()
+        private void CountdownStart(float time)
         {
-            await assetsProvider.WaitForCache(
-                assetsRepository.AssetNames(new[] { AssetTag.Bird, AssetTag.Walls, AssetTag.Obstacle, }));
-
-            await loadingPanel.AnimateAlpha(1f, 0f, 0.2f);
-
-            loadingPanel.gameObject.SetActive(false);
-
-            gameInputController.OnInteract += Interact;
-            gameInputController.InteractionEnable();
+            Countdown(time).Forget();
         }
 
-        private void Interact()
+        private async UniTask Countdown(float time)
         {
-            gameController.StartGame();
-            gameInputController.InteractionDisable();
+            countdownText.gameObject.SetActive(true);
+
+            await countdownText.AnimateCount(time, 0f, time);
+
+            countdownText.gameObject.SetActive(false);
         }
 
         public void OnDestroy()
         {
-            gameInputController.OnInteract -= Interact;
+            gameController.OnCountdownStart -= CountdownStart;
         }
     }
 }

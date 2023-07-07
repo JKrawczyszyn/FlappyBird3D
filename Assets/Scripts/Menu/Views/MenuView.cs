@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Menu.Controllers;
 using TMPro;
@@ -25,22 +26,19 @@ namespace Menu.Views
         [Inject]
         private MenuController menuController;
 
-        private string[] assetNames;
+        private Asset[] assets;
 
         private readonly List<Button> buttons = new();
 
-        private void Start()
+        [Inject]
+        private async UniTaskVoid Construct()
         {
-            Initialize().Forget();
-        }
+            assets = assetsRepository.AssetsForScene(SceneName.Menu);
 
-        private async UniTaskVoid Initialize()
-        {
-            assetNames = assetsRepository.AssetNames(AssetTag.MenuButton);
-
-            await assetsProvider.CacheReferences<Button>(assetNames);
+            await assetsProvider.CacheReferences<Button>(assets.Select(a => a.name));
 
             menuController.OnAddButton += AddButton;
+            menuController.OnWaitForButtonResult += WaitForButtonResult;
             menuController.OnRemoveButtons += RemoveButtons;
 
             menuController.Initialize();
@@ -48,14 +46,22 @@ namespace Menu.Views
 
         private void AddButton(string label, Action action)
         {
-            var button = assetsProvider.Instantiate<Button>(assetNames.GetRandom(), Vector3.zero, container);
+            var buttonName = assets.Where(a => a.tag == AssetTag.MenuButton).GetRandom().name;
+
+            var button = assetsProvider.Instantiate<Button>(buttonName, Vector3.zero, container);
             button.GetComponentInChildren<TextMeshProUGUI>().text = label;
-            button.onClick.AddListener(() => action());
 
             buttons.Add(button);
 
             if (buttons.Count == 1)
                 EventSystem.current.SetSelectedGameObject(button.gameObject);
+        }
+
+        private async UniTask<int> WaitForButtonResult()
+        {
+            var tasks = buttons.Select(button => button.OnClickAsync());
+
+            return await UniTask.WhenAny(tasks);
         }
 
         private void RemoveButtons()

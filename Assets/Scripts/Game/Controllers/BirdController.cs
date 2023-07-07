@@ -1,6 +1,7 @@
 using System;
 using Entry.Controllers;
 using UnityEngine;
+using Utilities;
 using Zenject;
 
 namespace Game.Controllers
@@ -22,17 +23,17 @@ namespace Game.Controllers
         {
             this.rigidbody = rigidbody;
 
-            rigidbody.useGravity = false;
+            rigidbody.isKinematic = true;
             rigidbody.mass = gameConfig.birdConfig.mass;
 
             gameInputController.OnBirdJump += Jump;
         }
 
-        public void Start()
+        public void EnableInteraction()
         {
             gameInputController.BirdEnable();
 
-            rigidbody.useGravity = true;
+            rigidbody.isKinematic = false;
         }
 
         private void Jump()
@@ -50,8 +51,6 @@ namespace Game.Controllers
 
         private void Move(float value)
         {
-            // Debug.Log(">>> Move: " + value);
-
             rigidbody.AddForce(Vector3.right * value, ForceMode.Impulse);
             rigidbody.velocity
                 = new Vector3(
@@ -61,7 +60,8 @@ namespace Game.Controllers
 
         public void BirdCollision(Collision other)
         {
-            gameFlowController.LostGame();
+            if (other.collider.CompareTag(Constants.ObstacleTag))
+                gameFlowController.LostGame(10);
         }
 
         public void Dispose()

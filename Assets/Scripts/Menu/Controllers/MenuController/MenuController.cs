@@ -1,49 +1,44 @@
 using System;
-using Utilities;
+using Cysharp.Threading.Tasks;
+using Utilities.FSM;
 using Zenject;
 
 namespace Menu.Controllers
 {
     public class MenuController
     {
+        public event Action<string, Action> OnAddButton;
+        public event Func<UniTask<int>> OnWaitForButtonResult;
+        public event Action OnRemoveButtons;
+
         [Inject]
         private readonly StateMachine<MenuState> stateMachine;
 
-        public event Action<string, Action> OnAddButton;
-        public event Action OnRemoveButtons;
-
         public void Initialize()
         {
-            stateMachine.Push<MainMenuState>();
-            stateMachine.Perform();
+            stateMachine.RequestTransition<MainMenuState>();
+            stateMachine.Start();
         }
 
-        public void AddButton(string label, Action action)
+        public void SetButtons(params string[] labels)
         {
-            OnAddButton?.Invoke(label, action);
+            RemoveButtons();
+
+            foreach (var label in labels)
+                OnAddButton?.Invoke(label, () => { });
+        }
+
+        public async UniTask<int> WaitForButtonResult()
+        {
+            if (OnWaitForButtonResult != null)
+                return await OnWaitForButtonResult();
+
+            return -1;
         }
 
         public void RemoveButtons()
         {
             OnRemoveButtons?.Invoke();
-        }
-
-        public void StartGame()
-        {
-            stateMachine.Push<StartGameState>();
-            stateMachine.Perform();
-        }
-
-        public void HighScores()
-        {
-            stateMachine.Push<HighScoresMenuState>();
-            stateMachine.Perform();
-        }
-
-        public void Back()
-        {
-            stateMachine.Pop();
-            stateMachine.Perform();
         }
     }
 }

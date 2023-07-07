@@ -1,6 +1,5 @@
-using Cysharp.Threading.Tasks;
+using Entry.Controllers;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Entry
@@ -8,13 +7,13 @@ namespace Entry
     public class EntryPoint : MonoBehaviour
     {
         [Inject]
-        private SceneLoader sceneLoader;
+        private GameFlowController gameFlowController;
 
         private void Start()
         {
             Debug.Log("Start EntryPoint.");
 
-            sceneLoader.Load(Constants.MenuScene).Forget();
+            gameFlowController.Initialize();
         }
     }
 }

@@ -45,19 +45,15 @@ namespace Game.Views
 
         private int Count => Config.spawnDistance / Config.intervalDistance;
 
-        private void Start()
+        [Inject]
+        private async UniTaskVoid Construct()
         {
-            Initialize().Forget();
-        }
+            gameController.OnGameStarted += StartMove;
+            speedController.OnSpeedChanged += SpeedChanged;
 
-        private async UniTaskVoid Initialize()
-        {
             assetNames = assetsRepository.AssetNames(AssetTag.Obstacle);
 
             await assetsProvider.CacheReferences<Obstacle>(assetNames);
-
-            gameController.OnGameStarted += StartMove;
-            speedController.OnSpeedChanged += SpeedChanged;
 
             moveSpeed = Config.startSpeed;
 
@@ -157,6 +153,8 @@ namespace Game.Views
 
         private void OnDestroy()
         {
+            started = false;
+
             gameController.OnGameStarted -= StartMove;
             speedController.OnSpeedChanged -= SpeedChanged;
         }

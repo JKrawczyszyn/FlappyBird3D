@@ -1,5 +1,5 @@
 ﻿using Menu.Controllers;
-using Utilities;
+using Utilities.FSM;
 using Zenject;
 
 namespace Menu.Installers
@@ -8,14 +8,9 @@ namespace Menu.Installers
     {
         public override void InstallBindings()
         {
-            BindMenuController();
-        }
-
-        private void BindMenuController()
-        {
             Container.BindInterfacesAndSelfTo<MenuController>().AsSingle();
-            Container.BindInterfacesAndSelfTo<StateMachine<MenuState>>().AsSingle();
-            Container.BindAllDerivedInterfacesAndSelf<MenuState>(c => c.AsSingle());
+
+            FSMInstaller<MenuState>.Install(Container);
         }
     }
 }
