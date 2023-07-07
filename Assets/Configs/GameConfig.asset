@@ -16,9 +16,11 @@ MonoBehaviour:
   gravity: 40
   acceleration: 2
   gameplayConfig:
-    startSpeed: 10
+    startSpeed: 5
     countdownTime: 3
     endGameInteractionDelay: 2
+    speedUpInterval: 5
+    speedUpValue: 2
   birdConfig:
     maxSpeed: 5
     jumpForce: 3

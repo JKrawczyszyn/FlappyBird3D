@@ -6,7 +6,6 @@ public class GameConfig : ScriptableObject
 {
     public int frameRate = -1;
     public float gravity = 40;
-    public float acceleration = 2f;
 
     public GameplayConfig gameplayConfig;
     public BirdConfig birdConfig;
@@ -21,6 +20,9 @@ public class GameplayConfig
     public float startSpeed = 10f;
     public float countdownTime = 3f;
     public float endGameInteractionDelay = 2f;
+    public int speedUpInterval = 5;
+    public float speedUpValue = 2f;
+    public float speedUpAcceleration = 1f;
 }
 
 [Serializable]
