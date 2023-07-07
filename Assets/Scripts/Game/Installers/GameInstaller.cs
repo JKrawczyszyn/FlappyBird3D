@@ -1,6 +1,7 @@
 using Game.Controllers;
 using UnityEngine;
 using Utilities;
+using Utilities.FSM;
 using Zenject;
 
 namespace Game.Installers
@@ -17,6 +18,8 @@ namespace Game.Installers
             Container.Bind<InputControls>().AsSingle();
 
             Container.BindAllDerivedInterfacesAndSelf<IController>(m => m.AsSingle().NonLazy());
+
+            FSMInstaller<GameplayState>.Install(Container);
         }
     }
 }

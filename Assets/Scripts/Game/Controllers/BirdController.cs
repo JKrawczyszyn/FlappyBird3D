@@ -15,7 +15,7 @@ namespace Game.Controllers
         private GameInputController gameInputController;
 
         [Inject]
-        private GameFlowController gameFlowController;
+        private FlowController flowController;
 
         private Rigidbody rigidbody;
 
@@ -61,7 +61,7 @@ namespace Game.Controllers
         public void BirdCollision(Collision other)
         {
             if (other.collider.CompareTag(Constants.ObstacleTag))
-                gameFlowController.LostGame(10);
+                flowController.LostGame(10);
         }
 
         public void Dispose()

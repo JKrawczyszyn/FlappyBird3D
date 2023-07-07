@@ -18,7 +18,7 @@ namespace Game.Views
         private GameInputController gameInputController;
 
         [Inject]
-        private GameController gameController;
+        private GameplayController gameplayController;
 
         [Inject]
         private AssetsRepository assetsRepository;
@@ -35,7 +35,7 @@ namespace Game.Views
         {
             await assetsProvider.WaitForCache(assetsRepository.AssetNamesForScene(SceneName.Game));
 
-            await gameController.StartGame();
+            gameplayController.StartGame();
         }
     }
 }

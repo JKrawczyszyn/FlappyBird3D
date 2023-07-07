@@ -17,7 +17,7 @@ public class GameConfig : ScriptableObject
 [Serializable]
 public class GameplayConfig
 {
-    public float countdownTime = 5f;
+    public float countdownTime = 3f;
 }
 
 [Serializable]

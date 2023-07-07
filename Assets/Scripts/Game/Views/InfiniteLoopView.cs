@@ -15,13 +15,12 @@ namespace Game.Views
         [Inject]
         private SpeedController speedController;
 
+        private ViewState state;
+
         private float moveSpeed;
 
         private int interval;
         private int loopLength;
-
-        private bool initialized;
-        private bool started;
 
         private readonly List<GameObject> elements = new();
 
@@ -41,7 +40,7 @@ namespace Game.Views
 
             CreateElements(createCallback, assetName);
 
-            initialized = true;
+            state = ViewState.Initialized;
         }
 
         private void SpeedChanged(float speed)
@@ -65,7 +64,7 @@ namespace Game.Views
 
         private void UpdateElementsPositions()
         {
-            if (!initialized || !started)
+            if (state != ViewState.Started)
                 return;
 
             var positionChange = -Vector3.forward * moveSpeed * Time.deltaTime;
@@ -81,13 +80,15 @@ namespace Game.Views
 
         public void StartMove()
         {
-            Assert.IsTrue(initialized, "Not initialized.");
+            Assert.IsTrue(state == ViewState.Initialized, "Not initialized.");
 
-            started = true;
+            state = ViewState.Started;
         }
 
         public void OnDestroy()
         {
+            state = ViewState.None;
+
             speedController.OnSpeedChanged -= SpeedChanged;
         }
     }

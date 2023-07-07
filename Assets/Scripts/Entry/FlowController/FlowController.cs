@@ -4,11 +4,8 @@ using Zenject;
 
 namespace Entry.Controllers
 {
-    public class GameFlowController : IDisposable
+    public class FlowController : IDisposable
     {
-        [Inject]
-        private SceneLoader sceneLoader;
-
         [Inject]
         private readonly StateMachine<FlowState> stateMachine;
 

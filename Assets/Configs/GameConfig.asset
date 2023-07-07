@@ -15,10 +15,13 @@ MonoBehaviour:
   frameRate: -1
   gravity: 40
   acceleration: 2
+  gameplayConfig:
+    countdownTime: 3
   birdConfig:
     maxSpeed: 5
     jumpForce: 3
     mass: 0.2
+    startPosition: {x: 0, y: 0, z: 9}
   wallsConfig:
     interval: 100
     loop: 2

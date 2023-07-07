@@ -7,13 +7,13 @@ namespace Entry
     public class EntryPoint : MonoBehaviour
     {
         [Inject]
-        private GameFlowController gameFlowController;
+        private FlowController flowController;
 
         private void Start()
         {
             Debug.Log("Start EntryPoint.");
 
-            gameFlowController.Initialize();
+            flowController.Initialize();
         }
     }
 }

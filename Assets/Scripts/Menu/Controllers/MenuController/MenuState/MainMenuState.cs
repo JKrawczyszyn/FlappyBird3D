@@ -11,7 +11,7 @@ namespace Menu.Controllers
         private MenuController menuController;
 
         [Inject]
-        private GameFlowController gameFlowController;
+        private FlowController flowController;
 
         public override async UniTask OnEnter()
         {
@@ -34,7 +34,7 @@ namespace Menu.Controllers
 
         private void LoadGame()
         {
-            gameFlowController.LoadGame();
+            flowController.LoadGame();
 
             StateMachine.Stop();
         }

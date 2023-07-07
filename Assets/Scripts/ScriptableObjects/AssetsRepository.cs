@@ -10,6 +10,8 @@ public class AssetsRepository : ScriptableObject
 
     public string[] AssetNames(AssetTag assetTag) => assets.Where(a => a.tag == assetTag).Select(a => a.name).ToArray();
 
+    public int AssetCount(AssetTag assetTag) => assets.Count(a => a.tag == assetTag);
+
     public string[] AssetNames(IEnumerable<AssetTag> tags)
     {
         var hashSet = tags.ToHashSet();

@@ -21,7 +21,7 @@ namespace Game.Views
         private AssetsRepository assetsRepository;
 
         [Inject]
-        private GameController gameController;
+        private PlayState playState;
 
         private string[] assetNames;
 
@@ -30,7 +30,7 @@ namespace Game.Views
         [Inject]
         private async UniTaskVoid Construct()
         {
-            gameController.OnGameStarted += StartMove;
+            playState.OnStart += StartMove;
 
             assetNames = assetsRepository.AssetNames(AssetTag.Walls);
 
@@ -49,7 +49,7 @@ namespace Game.Views
 
         private void OnDestroy()
         {
-            gameController.OnGameStarted -= StartMove;
+            playState.OnStart -= StartMove;
         }
     }
 }

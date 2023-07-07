@@ -27,7 +27,7 @@ namespace Entry.Installers
             Container.Bind<SceneLoader>().AsSingle();
             Container.Bind<AssetsProvider>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo<GameFlowController>().AsSingle();
+            Container.BindInterfacesAndSelfTo<FlowController>().AsSingle();
 
             FSMInstaller<FlowState>.Install(Container);
         }

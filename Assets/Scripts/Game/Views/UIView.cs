@@ -16,12 +16,12 @@ namespace Game.Views
         private TextMeshProUGUI countdownText;
 
         [Inject]
-        private GameController gameController;
+        private CountdownState countdownState;
 
         [Inject]
         public void Construct()
         {
-            gameController.OnCountdownStart += CountdownStart;
+            countdownState.OnStart += CountdownStart;
         }
 
         private void CountdownStart(float time)
@@ -40,7 +40,7 @@ namespace Game.Views
 
         public void OnDestroy()
         {
-            gameController.OnCountdownStart -= CountdownStart;
+            countdownState.OnStart -= CountdownStart;
         }
     }
 }

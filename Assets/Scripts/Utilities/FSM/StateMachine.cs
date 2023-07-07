@@ -13,7 +13,6 @@ namespace Utilities.FSM
         private readonly DiContainer container;
 
         private T currentState;
-        private T previousState;
 
         private readonly Dictionary<Type, T> states = new();
         private readonly Queue<Type> pendingTransitions = new();
@@ -73,7 +72,7 @@ namespace Utilities.FSM
         {
             if (currentState != null)
             {
-                previousState = currentState;
+                var previousState = currentState;
 
                 Debug.Log($"Change state from '{currentState.GetType()}'.");
 
@@ -89,7 +88,7 @@ namespace Utilities.FSM
 
             Debug.Log($"Change state to '{currentState.GetType()}'.");
 
-            await nextState.OnEnter();
+            await currentState.OnEnter();
         }
     }
 }

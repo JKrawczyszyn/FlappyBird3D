@@ -22,7 +22,7 @@ namespace Menu.Controllers
 
         public void SetButtons(params string[] labels)
         {
-            RemoveButtons();
+            OnRemoveButtons?.Invoke();
 
             foreach (var label in labels)
                 OnAddButton?.Invoke(label, () => { });
@@ -34,11 +34,6 @@ namespace Menu.Controllers
                 return await OnWaitForButtonResult();
 
             return -1;
-        }
-
-        public void RemoveButtons()
-        {
-            OnRemoveButtons?.Invoke();
         }
     }
 }
