@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Game.Controllers
 {
-    public class PlayState : GameplayState
+    public class StartGameState : GameplayState
     {
         public event Action OnStart;
 

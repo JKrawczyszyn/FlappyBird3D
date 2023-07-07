@@ -15,7 +15,7 @@ namespace Game.Controllers
         {
             await Countdown();
 
-            StateMachine.RequestTransition(typeof(PlayState));
+            StateMachine.Transition<StartGameState>();
         }
 
         private async UniTask Countdown()

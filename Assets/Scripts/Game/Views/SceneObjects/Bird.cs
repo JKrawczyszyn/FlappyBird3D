@@ -15,12 +15,54 @@ namespace Game.Views
         [Inject]
         private void Construct()
         {
-            controller.Initialize(rigidbody);
+            controller.OnSetMovable += SetMovable;
+            controller.OnSetMass += SetMass;
+            controller.OnSetVelocityY += SetVelocityY;
+            controller.OnAddForce += AddForce;
+            controller.OnClampVelocityX += ClampVelocityX;
+
+            controller.Initialize();
         }
 
-        public void OnCollisionStay(Collision other)
+        private void SetMovable(bool value)
         {
-            controller.BirdCollision(other);
+            rigidbody.isKinematic = !value;
+        }
+
+        private void SetMass(float value)
+        {
+            rigidbody.mass = value;
+        }
+
+        private void SetVelocityY(float value)
+        {
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, value, 0f);
+        }
+
+        private void AddForce(float value, bool up)
+        {
+            var direction = up ? Vector3.up : Vector3.right;
+            rigidbody.AddForce(direction * value, ForceMode.Impulse);
+        }
+
+        private void ClampVelocityX(float min, float max)
+        {
+            var clamped = Mathf.Clamp(rigidbody.velocity.x, min, max);
+            rigidbody.velocity = new Vector3(clamped, rigidbody.velocity.y, 0f);
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            controller.Collision(other);
+        }
+
+        private void OnDestroy()
+        {
+            controller.OnSetMovable -= SetMovable;
+            controller.OnSetMass -= SetMass;
+            controller.OnSetVelocityY -= SetVelocityY;
+            controller.OnAddForce -= AddForce;
+            controller.OnClampVelocityX -= ClampVelocityX;
         }
     }
 }

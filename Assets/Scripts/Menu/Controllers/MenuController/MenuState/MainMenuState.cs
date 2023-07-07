@@ -41,7 +41,7 @@ namespace Menu.Controllers
 
         private void LoadHighScore()
         {
-            StateMachine.RequestTransition(typeof(HighScoresState));
+            StateMachine.Transition<HighScoresState>();
         }
     }
 }

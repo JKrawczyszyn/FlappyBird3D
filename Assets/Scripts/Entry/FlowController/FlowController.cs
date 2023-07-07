@@ -11,20 +11,17 @@ namespace Entry.Controllers
 
         public void Initialize()
         {
-            stateMachine.RequestTransition<LoadMenuState>();
-            stateMachine.Start();
+            stateMachine.Transition<LoadMenuState>();
+        }
+
+        public void LoadMenu()
+        {
+            stateMachine.Transition<LoadMenuState>();
         }
 
         public void LoadGame()
         {
-            stateMachine.RequestTransition<LoadGameState>();
-            stateMachine.Start();
-        }
-
-        public void LostGame(int score)
-        {
-            stateMachine.RequestTransition<LostGameState>();
-            stateMachine.Start();
+            stateMachine.Transition<LoadGameState>();
         }
 
         public void Dispose()

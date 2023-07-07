@@ -13,6 +13,9 @@ namespace Game.Views
         private Transform container;
 
         [Inject]
+        private GameConfig gameConfig;
+
+        [Inject]
         private AssetsRepository assetsRepository;
 
         [Inject]
@@ -28,9 +31,10 @@ namespace Game.Views
         [Inject]
         private async UniTaskVoid Construct()
         {
-            obstaclesController.OnAddElement += AddElement;
-            obstaclesController.OnRemoveElement += RemoveElement;
+            obstaclesController.OnAdd += Add;
+            obstaclesController.OnRemove += Remove;
             obstaclesController.OnUpdatePositions += UpdatePositions;
+            obstaclesController.OnPassed += Passed;
 
             assetNames = assetsRepository.AssetNames(AssetTag.Obstacle);
 
@@ -39,30 +43,37 @@ namespace Game.Views
             obstaclesController.Initialize();
         }
 
+        private void Add(ObstacleModel model)
+        {
+            var assetName = assetNames[model.Type];
+            var element = assetsProvider.Instantiate<Obstacle>(assetName, Vector3.forward * model.Position, container);
+            element.SetAlpha(1f);
+            elements.Add(model.Id, element);
+        }
+
+        private void Remove(ObstacleModel model)
+        {
+            assetsProvider.Release(elements[model.Id]);
+            elements.Remove(model.Id);
+        }
+
         private void UpdatePositions(List<ObstacleModel> models)
         {
             foreach (var model in models)
                 elements[model.Id].transform.position = Vector3.forward * model.Position;
         }
 
-        private void RemoveElement(ObstacleModel model)
+        private void Passed(ObstacleModel model)
         {
-            assetsProvider.Release(elements[model.Id]);
-            elements.Remove(model.Id);
-        }
-
-        private void AddElement(ObstacleModel model)
-        {
-            var assetName = assetNames[model.Type];
-            var element = assetsProvider.Instantiate<Obstacle>(assetName, Vector3.forward * model.Position, container);
-            elements.Add(model.Id, element);
+            elements[model.Id].SetAlpha(gameConfig.obstaclesConfig.behindAlpha);
         }
 
         private void OnDestroy()
         {
-            obstaclesController.OnAddElement -= AddElement;
-            obstaclesController.OnRemoveElement -= RemoveElement;
+            obstaclesController.OnAdd -= Add;
+            obstaclesController.OnRemove -= Remove;
             obstaclesController.OnUpdatePositions -= UpdatePositions;
+            obstaclesController.OnPassed -= Passed;
         }
     }
 }

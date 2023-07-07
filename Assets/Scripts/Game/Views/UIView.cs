@@ -15,13 +15,35 @@ namespace Game.Views
         [SerializeField]
         private TextMeshProUGUI countdownText;
 
+        [SerializeField]
+        private TextMeshProUGUI gameOverText;
+
+        [Inject]
+        private ScoreController scoreController;
+
         [Inject]
         private CountdownState countdownState;
 
         [Inject]
+        private LostGameState lostGameState;
+
+        [Inject]
         public void Construct()
         {
+            scoreController.OnScoreChanged += ScoreChanged;
             countdownState.OnStart += CountdownStart;
+            lostGameState.OnStart += LostGameStart;
+
+            ScoreChanged(scoreController.Score);
+
+            scoreText.gameObject.SetActive(true);
+            countdownText.gameObject.SetActive(false);
+            gameOverText.gameObject.SetActive(false);
+        }
+
+        private void ScoreChanged(int score)
+        {
+            scoreText.text = $"Score: {score}";
         }
 
         private void CountdownStart(float time)
@@ -38,9 +60,19 @@ namespace Game.Views
             countdownText.gameObject.SetActive(false);
         }
 
+        private void LostGameStart(int score)
+        {
+            gameOverText.text = $"Game Over\nScore: {score}";
+
+            gameOverText.gameObject.SetActive(true);
+            scoreText.gameObject.SetActive(false);
+        }
+
         public void OnDestroy()
         {
+            scoreController.OnScoreChanged -= ScoreChanged;
             countdownState.OnStart -= CountdownStart;
+            lostGameState.OnStart -= LostGameStart;
         }
     }
 }

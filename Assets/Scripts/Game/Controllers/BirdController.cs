@@ -1,5 +1,5 @@
 using System;
-using Entry.Controllers;
+using TMPro;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -8,6 +8,12 @@ namespace Game.Controllers
 {
     public class BirdController : IController, ITickable, IDisposable
     {
+        public event Action<bool> OnSetMovable;
+        public event Action<float> OnSetMass;
+        public event Action<float> OnSetVelocityY;
+        public event Action<float, bool> OnAddForce;
+        public event Action<float, float> OnClampVelocityX;
+
         [Inject]
         private GameConfig gameConfig;
 
@@ -15,31 +21,34 @@ namespace Game.Controllers
         private GameInputController gameInputController;
 
         [Inject]
-        private FlowController flowController;
+        private GameplayController gameplayController;
 
-        private Rigidbody rigidbody;
-
-        public void Initialize(Rigidbody rigidbody)
+        public void Initialize()
         {
-            this.rigidbody = rigidbody;
-
-            rigidbody.isKinematic = true;
-            rigidbody.mass = gameConfig.birdConfig.mass;
-
             gameInputController.OnBirdJump += Jump;
+
+            OnSetMovable?.Invoke(false);
+            OnSetMass?.Invoke(gameConfig.birdConfig.mass);
         }
 
         public void EnableInteraction()
         {
             gameInputController.BirdEnable();
 
-            rigidbody.isKinematic = false;
+            OnSetMovable?.Invoke(true);
+        }
+
+        public void DisableInteraction()
+        {
+            gameInputController.BirdDisable();
+
+            OnSetMovable?.Invoke(false);
         }
 
         private void Jump()
         {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0f, 0f);
-            rigidbody.AddForce(Vector3.up * gameConfig.birdConfig.jumpForce, ForceMode.Impulse);
+            OnSetVelocityY?.Invoke(0f);
+            OnAddForce?.Invoke(gameConfig.birdConfig.jumpForce, true);
         }
 
         public void Tick()
@@ -51,17 +60,14 @@ namespace Game.Controllers
 
         private void Move(float value)
         {
-            rigidbody.AddForce(Vector3.right * value, ForceMode.Impulse);
-            rigidbody.velocity
-                = new Vector3(
-                    Mathf.Clamp(rigidbody.velocity.x, -gameConfig.birdConfig.maxSpeed, gameConfig.birdConfig.maxSpeed),
-                    rigidbody.velocity.y, 0f);
+            OnAddForce?.Invoke(value, false);
+            OnClampVelocityX?.Invoke(-gameConfig.birdConfig.maxSpeed, gameConfig.birdConfig.maxSpeed);
         }
 
-        public void BirdCollision(Collision other)
+        public void Collision(Collision other)
         {
             if (other.collider.CompareTag(Constants.ObstacleTag))
-                flowController.LostGame(10);
+                gameplayController.LostGame();
         }
 
         public void Dispose()

@@ -18,6 +18,7 @@ public class GameConfig : ScriptableObject
 public class GameplayConfig
 {
     public float countdownTime = 3f;
+    public float endGameInteractionDelay = 2f;
 }
 
 [Serializable]
@@ -43,4 +44,5 @@ public class ObstaclesConfig
     public int freeDistance = 30;
     public int intervalDistance = 20;
     public float startSpeed = 10f;
+    public float behindAlpha = 0.5f;
 }

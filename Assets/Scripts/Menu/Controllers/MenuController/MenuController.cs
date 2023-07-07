@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Menu.Controllers
 {
-    public class MenuController
+    public class MenuController : IDisposable
     {
         public event Action<string, Action> OnAddButton;
         public event Func<UniTask<int>> OnWaitForButtonResult;
@@ -16,8 +16,7 @@ namespace Menu.Controllers
 
         public void Initialize()
         {
-            stateMachine.RequestTransition<MainMenuState>();
-            stateMachine.Start();
+            stateMachine.Transition<MainMenuState>();
         }
 
         public void SetButtons(params string[] labels)
@@ -34,6 +33,11 @@ namespace Menu.Controllers
                 return await OnWaitForButtonResult();
 
             return -1;
+        }
+
+        public void Dispose()
+        {
+            stateMachine.Stop();
         }
     }
 }

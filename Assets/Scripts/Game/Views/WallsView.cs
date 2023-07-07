@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using Game.Controllers;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -20,9 +19,6 @@ namespace Game.Views
         [Inject]
         private AssetsRepository assetsRepository;
 
-        [Inject]
-        private PlayState playState;
-
         private string[] assetNames;
 
         private WallsConfig Config => gameConfig.wallsConfig;
@@ -30,8 +26,6 @@ namespace Game.Views
         [Inject]
         private async UniTaskVoid Construct()
         {
-            playState.OnStart += StartMove;
-
             assetNames = assetsRepository.AssetNames(AssetTag.Walls);
 
             await assetsProvider.CacheReferences<Walls>(assetNames);
@@ -41,15 +35,5 @@ namespace Game.Views
 
         private GameObject CreateWall(string name, Vector3 position, Transform parent) =>
             assetsProvider.Instantiate<Walls>(name, position, parent).gameObject;
-
-        private void StartMove()
-        {
-            loopView.StartMove();
-        }
-
-        private void OnDestroy()
-        {
-            playState.OnStart -= StartMove;
-        }
     }
 }

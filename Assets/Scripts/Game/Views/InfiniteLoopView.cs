@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Game.Controllers;
 using UnityEngine;
-using UnityEngine.Assertions;
 using Zenject;
 
 namespace Game.Views
@@ -14,8 +13,6 @@ namespace Game.Views
 
         [Inject]
         private SpeedController speedController;
-
-        private ViewState state;
 
         private float moveSpeed;
 
@@ -39,8 +36,6 @@ namespace Game.Views
             this.loopLength = loopLength;
 
             CreateElements(createCallback, assetName);
-
-            state = ViewState.Initialized;
         }
 
         private void SpeedChanged(float speed)
@@ -64,7 +59,7 @@ namespace Game.Views
 
         private void UpdateElementsPositions()
         {
-            if (state != ViewState.Started)
+            if (moveSpeed == 0f)
                 return;
 
             var positionChange = -Vector3.forward * moveSpeed * Time.deltaTime;
@@ -78,17 +73,8 @@ namespace Game.Views
             }
         }
 
-        public void StartMove()
-        {
-            Assert.IsTrue(state == ViewState.Initialized, "Not initialized.");
-
-            state = ViewState.Started;
-        }
-
         public void OnDestroy()
         {
-            state = ViewState.None;
-
             speedController.OnSpeedChanged -= SpeedChanged;
         }
     }

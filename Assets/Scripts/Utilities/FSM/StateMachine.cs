@@ -12,30 +12,34 @@ namespace Utilities.FSM
         [Inject]
         private readonly DiContainer container;
 
-        private T currentState;
+        public T CurrentState { get; private set; }
 
         private readonly Dictionary<Type, T> states = new();
-        private readonly Queue<Type> pendingTransitions = new();
+        private readonly Queue<(Type type, object data)> pendingTransitions = new();
 
         private bool running;
 
-        public void RequestTransition<T1>() where T1 : T
+        public void Transition<T1>() where T1 : T
         {
-            RequestTransition(typeof(T1));
+            Transition<T1, object>(default);
         }
 
-        public void RequestTransition(Type type)
+        public void Transition<T1, T2>(T2 data) where T1 : T
         {
+            var type = typeof(T1);
+
             if (!states.ContainsKey(type))
             {
                 var state = (T)container.Resolve(type);
                 states.Add(type, state);
             }
 
-            pendingTransitions.Enqueue(type);
+            pendingTransitions.Enqueue((type, data));
+
+            StartIfShould();
         }
 
-        public void Start()
+        private void StartIfShould()
         {
             if (running)
                 return;
@@ -60,7 +64,7 @@ namespace Utilities.FSM
                     break;
 
                 var transition = pendingTransitions.Dequeue();
-                var cancel = await ChangeTo(transition).SuppressCancellationThrow();
+                var cancel = await ChangeTo(transition.type, transition.data).SuppressCancellationThrow();
                 if (cancel)
                     running = false;
             }
@@ -68,27 +72,29 @@ namespace Utilities.FSM
             running = false;
         }
 
-        private async UniTask ChangeTo(Type stateType)
+        private async UniTask ChangeTo(Type type, object data)
         {
-            if (currentState != null)
+            if (CurrentState != null)
             {
-                var previousState = currentState;
+                var previousState = CurrentState;
 
-                Debug.Log($"Change state from '{currentState.GetType()}'.");
+                Debug.Log($"Change state from '{CurrentState.GetType()}'.");
 
                 await previousState.OnExit();
 
-                currentState = null;
+                CurrentState = null;
             }
 
-            var success = states.TryGetValue(stateType, out T nextState);
-            Assert.IsTrue(success, $"State '{stateType.Name}' is not registered to state machine.");
+            var success = states.TryGetValue(type, out T nextState);
+            Assert.IsTrue(success, $"State '{type.Name}' is not registered to state machine.");
 
-            currentState = nextState;
+            nextState.Data = data;
 
-            Debug.Log($"Change state to '{currentState.GetType()}'.");
+            CurrentState = nextState;
 
-            await currentState.OnEnter();
+            Debug.Log($"Change state to '{CurrentState.GetType()}'.");
+
+            await CurrentState.OnEnter();
         }
     }
 }

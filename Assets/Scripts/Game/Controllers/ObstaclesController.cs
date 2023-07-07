@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game.Views;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Utilities;
@@ -11,9 +10,10 @@ namespace Game.Controllers
 {
     public class ObstaclesController : IController, ITickable
     {
-        public event Action<ObstacleModel> OnAddElement;
-        public event Action<ObstacleModel> OnRemoveElement;
+        public event Action<ObstacleModel> OnAdd;
+        public event Action<ObstacleModel> OnRemove;
         public event Action<List<ObstacleModel>> OnUpdatePositions;
+        public event Action<ObstacleModel> OnPassed;
 
         [Inject]
         private GameConfig gameConfig;
@@ -22,19 +22,11 @@ namespace Game.Controllers
         private SpeedController speedController;
 
         [Inject]
-        private BirdController birdController;
-
-        [Inject]
-        private PlayState playState;
-
-        [Inject]
         private AssetsRepository assetsRepository;
-
-        private ViewState state;
 
         private float moveSpeed;
 
-        private readonly List<ObstacleModel> elements = new();
+        private readonly List<ObstacleModel> models = new();
 
         private ObstaclesConfig Config => gameConfig.obstaclesConfig;
 
@@ -45,7 +37,6 @@ namespace Game.Controllers
         [Inject]
         private void Construct()
         {
-            playState.OnStart += StartMove;
             speedController.OnSpeedChanged += SpeedChanged;
         }
 
@@ -54,15 +45,6 @@ namespace Game.Controllers
             types = assetsRepository.AssetCount(AssetTag.Obstacle);
 
             CreateStartElements();
-
-            state = ViewState.Initialized;
-        }
-
-        private void StartMove()
-        {
-            Assert.IsTrue(state == ViewState.Initialized, "Not initialized.");
-
-            state = ViewState.Started;
         }
 
         private void SpeedChanged(float speed)
@@ -82,68 +64,81 @@ namespace Game.Controllers
                 if (IsInsideOfFreeDistance(currentPosition))
                     continue;
 
-                AddElement(currentPosition);//, assetNames.GetRandom());
+                AddModel(currentPosition);
             }
         }
 
         public void Tick()
         {
-            UpdateElements();
+            UpdateModels();
         }
 
-        private void UpdateElements()
+        private void UpdateModels()
         {
-            if (state != ViewState.Started)
+            if (moveSpeed == 0f)
                 return;
 
-            Assert.IsTrue(elements.Count > 0, "Elements count must be greater than zero.");
+            Assert.IsTrue(models.Count > 0, "Elements count must be greater than zero.");
 
             UpdatePositions();
             UpdateRemove();
             UpdateAdd();
+            UpdatePassed();
         }
 
         private void UpdatePositions()
         {
             var positionChange = -moveSpeed * Time.deltaTime;
 
-            foreach (var element in elements)
-                element.Position += positionChange;
+            foreach (var model in models)
+                model.Position += positionChange;
 
-            OnUpdatePositions?.Invoke(elements);
+            OnUpdatePositions?.Invoke(models);
         }
 
         private void UpdateRemove()
         {
-            var toDestroy = elements.Where(e => !IsInsideOfView(e.Position));
-            foreach (var element in toDestroy.ToArray())
-                RemoveElement(element);
+            var toDestroy = models.Where(e => !IsInsideOfView(e.Position));
+
+            foreach (var model in toDestroy.ToArray())
+                RemoveModel(model);
         }
 
         private void UpdateAdd()
         {
-            if (elements.Count >= Count)
+            if (models.Count >= Count)
                 return;
 
-            AddElement(elements[^1].Position + Config.intervalDistance);
+            AddModel(models[^1].Position + Config.intervalDistance);
         }
 
-        private void RemoveElement(ObstacleModel model)
+        private void UpdatePassed()
         {
-            elements.Remove(model);
+            foreach (var model in models)
+                if (!model.IsPassed && model.Position < gameConfig.birdConfig.startPosition.z)
+                {
+                    model.IsPassed = true;
 
-            OnRemoveElement?.Invoke(model);
+                    OnPassed?.Invoke(model);
+                }
         }
 
-        private void AddElement(float position)
+        private void RemoveModel(ObstacleModel model)
+        {
+            models.Remove(model);
+
+            OnRemove?.Invoke(model);
+        }
+
+        private void AddModel(float position)
         {
             var id = IdProvider.GetNextId();
             var type = types.GetRandom();
 
             var model = new ObstacleModel(id, type, position);
-            elements.Add(model);
+            models.Add(model);
 
-            OnAddElement?.Invoke(model);
+            OnAdd?.Invoke(model);
         }
 
         private bool IsInsideOfView(float position) => position > 0f;
