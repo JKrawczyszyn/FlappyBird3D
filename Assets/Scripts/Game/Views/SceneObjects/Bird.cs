@@ -10,6 +10,9 @@ namespace Game.Views
         private Rigidbody rigidbody;
 
         [Inject]
+        private CollisionResolver collisionResolver;
+
+        [Inject]
         private BirdController controller;
 
         [Inject]
@@ -51,9 +54,14 @@ namespace Game.Views
             rigidbody.velocity = new Vector3(clamped, rigidbody.velocity.y, 0f);
         }
 
+        private void OnTriggerStay(Collider other)
+        {
+            collisionResolver.BirdCollision(other);
+        }
+
         private void OnCollisionEnter(Collision other)
         {
-            controller.Collision(other);
+            collisionResolver.BirdCollision(other);
         }
 
         private void OnDestroy()

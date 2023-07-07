@@ -9,9 +9,17 @@ namespace Game.Installers
         [SerializeField]
         private WallsView wallsView;
 
+        [SerializeField]
+        private CollectiblesView collectiblesView;
+
+        [SerializeField]
+        private CollisionResolver collisionResolver;
+
         public override void InstallBindings()
         {
             Container.BindInstance(wallsView);
+            Container.BindInstance(collectiblesView);
+            Container.BindInstance(collisionResolver);
         }
     }
 }

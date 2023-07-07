@@ -19,7 +19,7 @@ namespace Game.Controllers
 
         public override async UniTask OnEnter()
         {
-            speedController.SetSpeed(gameConfig.obstaclesConfig.startSpeed);
+            speedController.SetSpeed(gameConfig.gameplayConfig.startSpeed);
 
             birdController.EnableInteraction();
 

@@ -12,11 +12,13 @@ public class GameConfig : ScriptableObject
     public BirdConfig birdConfig;
     public WallsConfig wallsConfig;
     public ObstaclesConfig obstaclesConfig;
+    public CollectiblesConfig collectiblesConfig;
 }
 
 [Serializable]
 public class GameplayConfig
 {
+    public float startSpeed = 10f;
     public float countdownTime = 3f;
     public float endGameInteractionDelay = 2f;
 }
@@ -38,11 +40,22 @@ public class WallsConfig
 }
 
 [Serializable]
-public class ObstaclesConfig
+public class MovingObjectsConfig
 {
-    public int spawnDistance = 200;
-    public int freeDistance = 30;
+    public int maxSpawnDistance = 200;
+    public int startSpawnDistance = 30;
     public int intervalDistance = 20;
-    public float startSpeed = 10f;
+}
+
+[Serializable]
+public class ObstaclesConfig : MovingObjectsConfig
+{
     public float behindAlpha = 0.5f;
+}
+
+[Serializable]
+public class CollectiblesConfig : MovingObjectsConfig
+{
+    public Vector2 spawnMin = new(-3f, -3f);
+    public Vector2 spawnMax = new(3f, 3f);
 }

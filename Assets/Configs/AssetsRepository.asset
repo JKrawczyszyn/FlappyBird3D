@@ -41,8 +41,11 @@ MonoBehaviour:
     sceneTags: 02000000
     name: ObstacleLeftRight
   - tag: 4
+    sceneTags: 02000000
+    name: Collectible
+  - tag: 5
     sceneTags: 01000000
     name: MenuButton
-  - tag: 5
+  - tag: 6
     sceneTags: 01000000
     name: MenuText

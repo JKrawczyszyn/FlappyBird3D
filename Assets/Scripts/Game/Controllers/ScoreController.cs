@@ -3,12 +3,9 @@ using Zenject;
 
 namespace Game.Controllers
 {
-    public class ScoreController : IController, IDisposable
+    public class ScoreController : IController
     {
         public event Action<int> OnScoreChanged;
-
-        [Inject]
-        private ObstaclesController obstaclesController;
 
         [Inject]
         private GameplayController gameplayController;
@@ -18,12 +15,10 @@ namespace Game.Controllers
         [Inject]
         private void Construct()
         {
-            obstaclesController.OnPassed += Passed;
-
             Score = 0;
         }
 
-        private void Passed(ObstacleModel _)
+        public void AddScore()
         {
             if (gameplayController.CurrentState is not StartGameState)
                 return;
@@ -31,11 +26,6 @@ namespace Game.Controllers
             Score++;
 
             OnScoreChanged?.Invoke(Score);
-        }
-
-        public void Dispose()
-        {
-            obstaclesController.OnPassed -= Passed;
         }
     }
 }

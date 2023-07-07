@@ -164,7 +164,7 @@ namespace Utilities
                 Assert.IsNotNull(go, $"Can't instantiate GameObject from '{referenceAsset}'.");
 
                 var success = go.TryGetComponent(out T component);
-                Assert.IsTrue(success, $"No BoardElement component found in '{go}'.");
+                Assert.IsTrue(success, $"No component found in '{go}'.");
 
                 go.name = NormalizeName(go.name);
                 go.transform.localScale = referenceAsset.transform.localScale;

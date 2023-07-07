@@ -19,6 +19,9 @@ namespace Game.Installers
 
             Container.BindAllDerivedInterfacesAndSelf<IController>(m => m.AsSingle().NonLazy());
 
+            Container.BindInterfacesAndSelfTo<MovingObjectsController<ObstacleModel>>().AsSingle();
+            Container.BindInterfacesAndSelfTo<MovingObjectsController<CollectibleModel>>().AsSingle();
+
             FSMInstaller<GameplayState>.Install(Container);
         }
     }

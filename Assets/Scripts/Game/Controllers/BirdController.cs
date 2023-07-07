@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -19,9 +18,6 @@ namespace Game.Controllers
 
         [Inject]
         private GameInputController gameInputController;
-
-        [Inject]
-        private GameplayController gameplayController;
 
         public void Initialize()
         {
@@ -62,12 +58,6 @@ namespace Game.Controllers
         {
             OnAddForce?.Invoke(value, false);
             OnClampVelocityX?.Invoke(-gameConfig.birdConfig.maxSpeed, gameConfig.birdConfig.maxSpeed);
-        }
-
-        public void Collision(Collision other)
-        {
-            if (other.collider.CompareTag(Constants.ObstacleTag))
-                gameplayController.LostGame();
         }
 
         public void Dispose()

@@ -34,7 +34,7 @@ namespace Game.Views
             obstaclesController.OnAdd += Add;
             obstaclesController.OnRemove += Remove;
             obstaclesController.OnUpdatePositions += UpdatePositions;
-            obstaclesController.OnPassed += Passed;
+            obstaclesController.OnPassedPlayer += PassedPlayer;
 
             assetNames = assetsRepository.AssetNames(AssetTag.Obstacle);
 
@@ -63,7 +63,7 @@ namespace Game.Views
                 elements[model.Id].transform.position = Vector3.forward * model.Position;
         }
 
-        private void Passed(ObstacleModel model)
+        private void PassedPlayer(ObstacleModel model)
         {
             elements[model.Id].SetAlpha(gameConfig.obstaclesConfig.behindAlpha);
         }
@@ -73,7 +73,7 @@ namespace Game.Views
             obstaclesController.OnAdd -= Add;
             obstaclesController.OnRemove -= Remove;
             obstaclesController.OnUpdatePositions -= UpdatePositions;
-            obstaclesController.OnPassed -= Passed;
+            obstaclesController.OnPassedPlayer -= PassedPlayer;
         }
     }
 }

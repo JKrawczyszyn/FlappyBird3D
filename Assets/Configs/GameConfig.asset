@@ -16,7 +16,9 @@ MonoBehaviour:
   gravity: 40
   acceleration: 2
   gameplayConfig:
+    startSpeed: 10
     countdownTime: 3
+    endGameInteractionDelay: 2
   birdConfig:
     maxSpeed: 5
     jumpForce: 3
@@ -26,7 +28,13 @@ MonoBehaviour:
     interval: 100
     loop: 2
   obstaclesConfig:
-    spawnDistance: 200
-    freeDistance: 30
+    maxSpawnDistance: 200
+    startSpawnDistance: 30
     intervalDistance: 20
-    startSpeed: 10
+    behindAlpha: 0.5
+  collectiblesConfig:
+    maxSpawnDistance: 200
+    startSpawnDistance: 40
+    intervalDistance: 20
+    spawnMin: {x: -3, y: -3}
+    spawnMax: {x: 3, y: 3}
