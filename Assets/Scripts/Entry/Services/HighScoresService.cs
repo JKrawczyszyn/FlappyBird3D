@@ -57,7 +57,7 @@ namespace Entry.Services
         private void LoadIfShould()
         {
             if (hiScores.Count == 0)
-                hiScores = fileService.Load(fileName).ToList();
+                hiScores = fileService.Load<Score>(fileName).ToList();
         }
     }
 }

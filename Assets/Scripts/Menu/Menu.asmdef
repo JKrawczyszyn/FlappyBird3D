@@ -1,0 +1,22 @@
+{
+    "name": "Menu",
+    "rootNamespace": "",
+    "references": [
+        "GUID:52f5a50b6a4b9b64f86f59d0036ad8bf",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:713029e7fc2f2794181dfcd7285815f2",
+        "GUID:2be526e88e978644cb77714509cf4165",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

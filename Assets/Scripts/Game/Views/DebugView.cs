@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Entry;
 using TMPro;
 using UnityEngine;
 using Zenject;

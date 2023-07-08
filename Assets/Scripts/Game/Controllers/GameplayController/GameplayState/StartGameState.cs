@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Entry;
 using Zenject;
 
 namespace Game.Controllers

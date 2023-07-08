@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Entry.Models;
 
-namespace Utilities
+namespace Entry.Models
 {
     public static class AssetsExtensions
     {

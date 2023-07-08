@@ -8,7 +8,7 @@ namespace Game.Controllers
     public class GameInputController : IController, IInitializable, IDisposable
     {
         [Inject]
-        private InputActions inputActions;
+        private InputControls inputActions;
 
         public event Action OnBirdJump;
 

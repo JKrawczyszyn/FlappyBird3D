@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using Entry.Models;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -11,7 +10,7 @@ namespace Entry.Services
 {
     public interface IFileService
     {
-        IEnumerable<Score> Load(string fileName);
+        IEnumerable<T> Load<T>(string fileName);
         void Save(string fileName, ICollection scores);
     }
 
@@ -19,14 +18,16 @@ namespace Entry.Services
     {
         private readonly BinaryFormatter binaryFormatter = new();
 
-        public IEnumerable<Score> Load(string fileName)
+        public IEnumerable<T> Load<T>(string fileName)
         {
             if (!File.Exists(GetFullPath(fileName)))
-                return Enumerable.Empty<Score>();
+                return Enumerable.Empty<T>();
 
             using FileStream file = File.Open(GetFullPath(fileName), FileMode.Open);
 
-            return (ICollection<Score>)binaryFormatter.Deserialize(file);
+            var collection = binaryFormatter.Deserialize(file) as ICollection<T>;
+
+            return collection ?? Enumerable.Empty<T>();
         }
 
         public void Save(string fileName, ICollection scores)

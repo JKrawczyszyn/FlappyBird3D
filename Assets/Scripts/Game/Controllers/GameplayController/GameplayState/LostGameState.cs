@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Entry;
 using Entry.Controllers;
 using Entry.Models;
 using Entry.Services;
