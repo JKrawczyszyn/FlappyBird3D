@@ -19,7 +19,8 @@ namespace Entry.Views
             sceneLoader.OnSceneLoadEnd += FadeOut;
             sceneLoader.OnSceneUnloadStart += FadeIn;
 
-            panel.gameObject.SetActive(false);
+            panel.alpha = 1f;
+            panel.gameObject.SetActive(true);
         }
 
         private async UniTask FadeIn()

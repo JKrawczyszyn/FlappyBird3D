@@ -203,8 +203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 1086674861}
+  config: {fileID: 11400000, guid: 8fb15453fb1cec54dbeb05e29e513b0e, type: 2}
   assetsRepository: {fileID: 11400000, guid: bc24f72f9a6670a4db2817c2d54d8db1, type: 2}
-  loadingBlendView: {fileID: 1849582003}
 --- !u!114 &254934379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,7 +518,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1849581997}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

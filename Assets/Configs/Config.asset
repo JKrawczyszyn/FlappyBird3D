@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7b95fab4424015479ed9428586c9703, type: 3}
-  m_Name: GameConfig
+  m_Name: Config
   m_EditorClassIdentifier: 
   frameRate: 60
   gravity: 40

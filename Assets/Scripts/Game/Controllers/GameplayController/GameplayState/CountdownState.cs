@@ -9,7 +9,7 @@ namespace Game.Controllers
         public event Action<float> OnStart;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         public override async UniTask OnEnter()
         {
@@ -20,7 +20,7 @@ namespace Game.Controllers
 
         private async UniTask Countdown()
         {
-            float time = gameConfig.gameplayConfig.countdownTime;
+            float time = config.gameplayConfig.countdownTime;
 
             OnStart?.Invoke(time);
 

@@ -18,22 +18,11 @@ namespace Game
         [Inject]
         private GameplayController gameplayController;
 
-        [Inject]
-        private GameConfig gameConfig;
-
         private async void Start()
         {
             Debug.Log("Start GameEntryPoint.");
 
-            SetParameters();
-
             await Initialize();
-        }
-
-        private void SetParameters()
-        {
-            Application.targetFrameRate = gameConfig.frameRate;
-            Physics.gravity = Vector3.down * gameConfig.gravity;
         }
 
         private async UniTask Initialize()

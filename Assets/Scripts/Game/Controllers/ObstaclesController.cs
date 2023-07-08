@@ -33,7 +33,7 @@ namespace Game.Controllers
         private MovingObjectsController<ObstacleModel> movingObjectsController;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         [Inject]
         private AssetsRepository assetsRepository;
@@ -44,7 +44,7 @@ namespace Game.Controllers
         {
             types = assetsRepository.AssetCount(AssetTag.Obstacle);
 
-            movingObjectsController.Initialize(gameConfig.obstaclesConfig, GetModel);
+            movingObjectsController.Initialize(config.obstaclesConfig, GetModel);
         }
 
         private ObstacleModel GetModel(float position)
@@ -67,7 +67,7 @@ namespace Game.Controllers
         {
             foreach (ObstacleModel model in movingObjectsController.Models)
             {
-                if (model.IsPassed || model.Position > gameConfig.birdConfig.startPosition.z)
+                if (model.IsPassed || model.Position > config.birdConfig.startPosition.z)
                     continue;
 
                 model.IsPassed = true;

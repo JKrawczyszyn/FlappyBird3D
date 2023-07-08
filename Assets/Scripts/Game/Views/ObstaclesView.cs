@@ -15,7 +15,7 @@ namespace Game.Views
         private Transform container;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         [Inject]
         private AssetsRepository assetsRepository;
@@ -40,7 +40,7 @@ namespace Game.Views
 
             assetNames = assetsRepository.AssetNames(AssetTag.Obstacle);
 
-            await assetsService.CacheReferences<Obstacle>(assetNames);
+            await assetsService.CacheReferences(assetNames);
 
             obstaclesController.Initialize();
         }
@@ -67,7 +67,7 @@ namespace Game.Views
 
         private void PassedPlayer(ObstacleModel model)
         {
-            instances[model.Id].SetAlpha(gameConfig.obstaclesConfig.behindAlpha);
+            instances[model.Id].SetAlpha(config.obstaclesConfig.behindAlpha);
         }
 
         private void OnDestroy()

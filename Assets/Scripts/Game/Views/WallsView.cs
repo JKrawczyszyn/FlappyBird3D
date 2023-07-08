@@ -16,21 +16,21 @@ namespace Game.Views
         private AssetsService assetsService;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         [Inject]
         private AssetsRepository assetsRepository;
 
         private string[] assetNames;
 
-        private WallsConfig Config => gameConfig.wallsConfig;
+        private WallsConfig Config => config.wallsConfig;
 
         [Inject]
         private async UniTaskVoid Construct()
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Walls);
 
-            await assetsService.CacheReferences<Walls>(assetNames);
+            await assetsService.CacheReferences(assetNames);
 
             loopView.Initialize(assetNames.GetRandom(), Config.interval, Config.loop, CreateWall);
         }

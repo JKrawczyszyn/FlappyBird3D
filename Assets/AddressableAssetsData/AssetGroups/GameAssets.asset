@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Packed Assets
+  m_Name: GameAssets
   m_EditorClassIdentifier: 
-  m_GroupName: Packed Assets
+  m_GroupName: GameAssets
   m_Data:
     m_SerializedData: []
   m_GUID: eeab81beeeef99f4a8416bcdec942f22
@@ -74,16 +74,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4976921e04958e343997eeb335202008
     m_Address: Bird2
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 01508bb104459b84e8627091843fab39
-    m_Address: MenuButton
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a2c8a684e206c2741866289956d292a4
-    m_Address: MenuText
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

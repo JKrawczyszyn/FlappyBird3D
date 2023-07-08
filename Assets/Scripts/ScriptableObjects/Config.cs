@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameConfig", menuName = "ScriptableObjects/GameConfig", order = 1)]
-public class GameConfig : ScriptableObject
+public class Config : ScriptableObject
 {
-    public int frameRate = -1;
+    public int frameRate = 60;
     public float gravity = 40;
     public bool debugMode = false;
 

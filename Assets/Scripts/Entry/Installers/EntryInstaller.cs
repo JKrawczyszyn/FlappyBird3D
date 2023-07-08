@@ -13,12 +13,16 @@ namespace Entry.Installers
         private Camera camera;
 
         [SerializeField]
+        private Config config;
+
+        [SerializeField]
         private AssetsRepository assetsRepository;
 
         public override void InstallBindings()
         {
-            Container.BindInstance(camera);
-            Container.BindInstance(assetsRepository);
+            Container.BindInstance(camera).AsSingle();
+            Container.BindInstance(config).AsSingle();
+            Container.BindInstance(assetsRepository).AsSingle();
 
             Container.Bind<SceneLoader>().AsSingle();
 

@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Entry.Controllers;
 using Entry.Models;
+using Entry.Services;
 using Zenject;
 
 namespace Game.Controllers
@@ -20,7 +21,10 @@ namespace Game.Controllers
         private FlowController flowController;
 
         [Inject]
-        private GameConfig gameConfig;
+        private GameStateService gameStateService;
+
+        [Inject]
+        private Config config;
 
         private Score score;
 
@@ -28,13 +32,15 @@ namespace Game.Controllers
         {
             score = new Score((int)Data, DateTime.Now, "Player");
 
+            gameStateService.SetLastScore(score);
+
+            OnStart?.Invoke(score);
+
             speedController.SetSpeed(0f);
 
             gameInputController.BirdDisable();
 
-            OnStart?.Invoke(score);
-
-            await UniTask.Delay(TimeSpan.FromSeconds(gameConfig.gameplayConfig.endGameInteractionDelay));
+            await UniTask.Delay(TimeSpan.FromSeconds(config.gameplayConfig.endGameInteractionDelay));
 
             gameInputController.OnInteract += Interact;
             gameInputController.InteractionEnable();

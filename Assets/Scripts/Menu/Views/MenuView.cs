@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Cysharp.Threading.Tasks;
-using Entry.Models;
-using Entry.Services;
+﻿using Entry.Models;
 using Menu.Controllers;
-using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using Utilities;
 using Zenject;
 
 namespace Menu.Views
@@ -20,62 +11,32 @@ namespace Menu.Views
         private Transform container;
 
         [Inject]
-        private AssetsRepository assetsRepository;
-
-        [Inject]
-        private AssetsService assetsService;
-
-        [Inject]
         private MenuController menuController;
+
+        [Inject]
+        private PanelFactory panelFactory;
 
         private Asset[] assets;
 
-        private readonly List<Button> buttons = new();
+        private IPanel currentPanel;
 
         [Inject]
-        private async UniTaskVoid Construct()
+        private void Construct()
         {
-            menuController.OnAddButton += AddButton;
-            menuController.OnWaitForButtonResult += WaitForButtonResult;
-            menuController.OnRemoveButtons += RemoveButtons;
-
-            assets = assetsRepository.AssetsForScene(SceneName.Menu);
-
-            await assetsService.CacheReferences<Button>(assets.Select(a => a.name));
+            menuController.OnOpenPanel += OpenPanel;
         }
 
-        private void AddButton(string label, Action action)
+        private void OpenPanel(IPanelContext context)
         {
-            var buttonName = assets.Where(a => a.tag == AssetTag.MenuButton).GetRandom().name;
+            if (currentPanel != null)
+                Destroy(currentPanel.GameObject);
 
-            var button = assetsService.Instantiate<Button>(buttonName, Vector3.zero, container);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = label;
-
-            buttons.Add(button);
-
-            if (buttons.Count == 1)
-                EventSystem.current.SetSelectedGameObject(button.gameObject);
-        }
-
-        private async UniTask<int> WaitForButtonResult()
-        {
-            var tasks = buttons.Select(button => button.OnClickAsync());
-
-            return await UniTask.WhenAny(tasks);
-        }
-
-        private void RemoveButtons()
-        {
-            foreach (var button in buttons)
-                Destroy(button.gameObject);
-
-            buttons.Clear();
+            currentPanel = panelFactory.Create(context, container);
         }
 
         public void OnDestroy()
         {
-            menuController.OnAddButton -= AddButton;
-            menuController.OnRemoveButtons -= RemoveButtons;
+            menuController.OnOpenPanel -= OpenPanel;
         }
     }
 }

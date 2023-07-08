@@ -15,9 +15,11 @@ namespace Menu.Controllers
 
         public override async UniTask OnEnter()
         {
-            menuController.SetButtons("Start Game", "High Scores");
+            var context = new MainMenuPanelContext("Main Menu", "Start Game", "High Scores");
 
-            int result = await menuController.WaitForButtonResult();
+            menuController.OpenPanel(context);
+
+            int result = await context.WaitForButton();
 
             switch (result)
             {

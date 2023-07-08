@@ -32,11 +32,11 @@ namespace Game.Controllers
         private MovingObjectsController<CollectibleModel> movingObjectsController;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         public void Initialize()
         {
-            movingObjectsController.Initialize(gameConfig.collectiblesConfig, GetModel);
+            movingObjectsController.Initialize(config.collectiblesConfig, GetModel);
         }
 
         private CollectibleModel GetModel(float position)

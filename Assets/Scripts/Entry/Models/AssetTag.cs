@@ -7,7 +7,8 @@ namespace Entry.Models
         Walls,
         Obstacle,
         Collectible,
-        MenuButton,
-        MenuText,
+        MenuPanel,
+        HighScoresPanel,
+        EnterHighScorePanel,
     }
 }

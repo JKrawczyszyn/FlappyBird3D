@@ -37,7 +37,7 @@ namespace Game.Views
 
             assetNames = assetsRepository.AssetNames(AssetTag.Collectible);
 
-            await assetsService.CacheReferences<Collectible>(assetNames);
+            await assetsService.CacheReferences(assetNames);
 
             collectiblesController.Initialize();
         }

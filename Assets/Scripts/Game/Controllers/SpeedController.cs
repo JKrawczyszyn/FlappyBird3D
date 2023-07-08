@@ -13,7 +13,7 @@ namespace Game.Controllers
         private float targetSpeed, currentSpeed;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         [Inject]
         private ObstaclesController obstaclesController;
@@ -32,10 +32,10 @@ namespace Game.Controllers
         {
             passedCounter++;
 
-            if (passedCounter % gameConfig.gameplayConfig.speedUpInterval != 0)
+            if (passedCounter % config.gameplayConfig.speedUpInterval != 0)
                 return;
 
-            targetSpeed += gameConfig.gameplayConfig.speedUpValue;
+            targetSpeed += config.gameplayConfig.speedUpValue;
 
             Debug.Log($"Speed up to '{targetSpeed}'.");
         }
@@ -51,7 +51,7 @@ namespace Game.Controllers
                 return;
 
             currentSpeed += Mathf.Sign(targetSpeed - currentSpeed)
-                            * gameConfig.gameplayConfig.speedUpAcceleration
+                            * config.gameplayConfig.speedUpAcceleration
                             * Time.deltaTime;
 
             OnSpeedChanged?.Invoke(currentSpeed);

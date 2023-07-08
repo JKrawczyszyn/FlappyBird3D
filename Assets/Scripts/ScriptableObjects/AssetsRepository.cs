@@ -1,13 +1,14 @@
 using System.Linq;
 using Entry.Models;
 using UnityEngine;
+using Utilities;
 
 [CreateAssetMenu(fileName = "AssetsRepository", menuName = "ScriptableObjects/AssetsRepository", order = 1)]
 public class AssetsRepository : ScriptableObject
 {
     public Asset[] assets;
 
-    public string[] AssetNames(AssetTag assetTag) => assets.Where(a => a.tag == assetTag).Select(a => a.name).ToArray();
+    public string[] AssetNames(AssetTag assetTag) => assets.FilterWithTag(assetTag).Select(a => a.name).ToArray();
 
     public int AssetCount(AssetTag assetTag) => assets.Count(a => a.tag == assetTag);
 

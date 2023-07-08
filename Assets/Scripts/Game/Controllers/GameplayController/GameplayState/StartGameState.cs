@@ -15,11 +15,11 @@ namespace Game.Controllers
         private SpeedController speedController;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         public override async UniTask OnEnter()
         {
-            speedController.SetSpeed(gameConfig.gameplayConfig.startSpeed);
+            speedController.SetSpeed(config.gameplayConfig.startSpeed);
 
             birdController.EnableInteraction();
 

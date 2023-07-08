@@ -13,7 +13,7 @@ namespace Game.Controllers
         public event Action<float, float> OnClampVelocityX;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         [Inject]
         private GameInputController gameInputController;
@@ -23,7 +23,7 @@ namespace Game.Controllers
             gameInputController.OnBirdJump += Jump;
 
             OnSetMovable?.Invoke(false);
-            OnSetMass?.Invoke(gameConfig.birdConfig.mass);
+            OnSetMass?.Invoke(config.birdConfig.mass);
         }
 
         public void EnableInteraction()
@@ -43,7 +43,7 @@ namespace Game.Controllers
         private void Jump()
         {
             OnSetVelocityY?.Invoke(0f);
-            OnAddForce?.Invoke(gameConfig.birdConfig.jumpForce, true);
+            OnAddForce?.Invoke(config.birdConfig.jumpForce, true);
         }
 
         public void Tick()
@@ -56,7 +56,7 @@ namespace Game.Controllers
         private void Move(float value)
         {
             OnAddForce?.Invoke(value, false);
-            OnClampVelocityX?.Invoke(-gameConfig.birdConfig.maxSpeed, gameConfig.birdConfig.maxSpeed);
+            OnClampVelocityX?.Invoke(-config.birdConfig.maxSpeed, config.birdConfig.maxSpeed);
         }
 
         public void Dispose()

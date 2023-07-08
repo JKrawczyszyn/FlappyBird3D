@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -10,18 +11,20 @@ using Object = UnityEngine.Object;
 
 namespace Entry.Services
 {
-    internal interface IAssetsManager
+    public class AssetsService : IService, IDisposable
     {
-        IEnumerable<string> CachedNames { get; }
-        void ClearPools();
-    }
-
-    internal class AssetsManager<T> : IDisposable, IAssetsManager where T : Component
-    {
-        private readonly Dictionary<AssetReference, IObjectPool<T>> referenceToPool = new();
+        private readonly Dictionary<AssetReference, IObjectPool<GameObject>> referenceToPool = new();
         private readonly Dictionary<string, AssetReference> nameToReference = new();
 
         public IEnumerable<string> CachedNames => nameToReference.Keys;
+
+        public async UniTask WaitForCache(string[] names)
+        {
+            do
+            {
+                await UniTask.Delay(97);
+            } while (!CachedNames.ToHashSet().IsSupersetOf(names));
+        }
 
         public async UniTask CacheReferences(IEnumerable<string> names)
         {
@@ -34,7 +37,17 @@ namespace Entry.Services
             await CacheReference(new AssetReference(name));
         }
 
-        public T Instantiate(string name, Vector3 position, Transform parent)
+        public T Instantiate<T>(string name, Vector3 position, Transform parent) where T : Component
+        {
+            GameObject go = Instantiate(name, position, parent);
+
+            bool success = go.TryGetComponent(out T component);
+            Assert.IsTrue(success, $"No component of type '{typeof(T)}' found in '{go.name}'.");
+
+            return component;
+        }
+
+        public GameObject Instantiate(string name, Vector3 position, Transform parent)
         {
             if (nameToReference.TryGetValue(name, out AssetReference reference))
                 return Instantiate(reference, position, parent);
@@ -44,7 +57,7 @@ namespace Entry.Services
             return null;
         }
 
-        private T Instantiate(AssetReference reference, Vector3 position, Transform parent)
+        private GameObject Instantiate(AssetReference reference, Vector3 position, Transform parent)
         {
             if (!reference.IsValid())
             {
@@ -53,18 +66,18 @@ namespace Entry.Services
                 return null;
             }
 
-            if (!referenceToPool.TryGetValue(reference, out IObjectPool<T> pool))
+            if (!referenceToPool.TryGetValue(reference, out IObjectPool<GameObject> pool))
             {
                 Debug.Log($"Pool not found for '{reference}'.");
 
                 return null;
             }
 
-            T instance = pool.Get();
+            GameObject instance = pool.Get();
 
             if (instance == null)
             {
-                Debug.Log($"Component '{typeof(T)}' not found for '{reference}'.");
+                Debug.Log($"GameObject not found for '{reference}'.");
 
                 pool.Release(instance);
 
@@ -72,12 +85,17 @@ namespace Entry.Services
             }
 
             instance.transform.SetParent(parent, false);
-            instance.transform.SetPositionAndRotation(position, Quaternion.identity);
+            instance.transform.SetLocalPositionAndRotation(position, Quaternion.identity);
 
             return instance;
         }
 
-        public void Release(T instance)
+        public void Release<T>(T instance) where T : Component
+        {
+            Release(instance.gameObject);
+        }
+
+        public void Release(GameObject instance)
         {
             if (instance == null || instance.gameObject == null || !instance.gameObject.activeSelf)
                 return;
@@ -91,7 +109,7 @@ namespace Entry.Services
                 return;
             }
 
-            if (!referenceToPool.TryGetValue(reference, out IObjectPool<T> pool))
+            if (!referenceToPool.TryGetValue(reference, out IObjectPool<GameObject> pool))
             {
                 Debug.Log($"Pool not found for '{name}'.");
 
@@ -148,11 +166,11 @@ namespace Entry.Services
             Assert.IsFalse(go == null, $"Can't load '{reference}'.");
         }
 
-        private IObjectPool<T> CreatePool(AssetReference reference)
+        private IObjectPool<GameObject> CreatePool(AssetReference reference)
         {
-            var pool = new ObjectPool<T>(onCreate, onGet, onRelease, onDestroy);
+            var pool = new ObjectPool<GameObject>(onCreate, onGet, onRelease, onDestroy);
 
-            T onCreate()
+            GameObject onCreate()
             {
                 Assert.IsTrue(referenceToPool.ContainsKey(reference), $"Reference '{reference}' pool not found.");
                 Assert.IsTrue(reference.IsDone, $"Reference '{reference}' not loaded.");
@@ -164,26 +182,23 @@ namespace Entry.Services
 
                 Assert.IsNotNull(go, $"Can't instantiate GameObject from '{referenceAsset}'.");
 
-                bool success = go.TryGetComponent(out T component);
-                Assert.IsTrue(success, $"No component found in '{go}'.");
-
                 go.name = NormalizeName(go.name);
                 go.transform.localScale = referenceAsset.transform.localScale;
 
-                return component;
+                return go;
             }
 
-            void onGet(T e)
+            void onGet(GameObject e)
             {
                 e.gameObject.SetActive(true);
             }
 
-            void onRelease(T e)
+            void onRelease(GameObject e)
             {
                 e.gameObject.SetActive(false);
             }
 
-            void onDestroy(T e)
+            void onDestroy(GameObject e)
             {
                 Object.Destroy(e.gameObject);
             }
@@ -193,7 +208,7 @@ namespace Entry.Services
 
         public void ClearPools()
         {
-            foreach (IObjectPool<T> pool in referenceToPool.Values)
+            foreach (IObjectPool<GameObject> pool in referenceToPool.Values)
                 pool.Clear();
         }
 

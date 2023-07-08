@@ -22,7 +22,7 @@ namespace Game.Views
         private AssetsService assetsService;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         private string[] assetNames;
 
@@ -33,9 +33,9 @@ namespace Game.Views
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Bird);
 
-            await assetsService.CacheReferences<Bird>(assetNames);
+            await assetsService.CacheReferences(assetNames);
 
-            bird = assetsService.Instantiate<Bird>(assetNames.GetRandom(), gameConfig.birdConfig.startPosition,
+            bird = assetsService.Instantiate<Bird>(assetNames.GetRandom(), config.birdConfig.startPosition,
                                                     container);
 
             context.Container.Inject(bird);

@@ -11,7 +11,7 @@ namespace Game.Views
         private TextMeshProUGUI debugText;
 
         [Inject]
-        private GameConfig gameConfig;
+        private Config config;
 
         private float smoothedDeltaTime;
 
@@ -20,7 +20,7 @@ namespace Game.Views
 
         private void Awake()
         {
-            if (!gameConfig.debugMode)
+            if (!config.debugMode)
                 Destroy(gameObject);
         }
 
