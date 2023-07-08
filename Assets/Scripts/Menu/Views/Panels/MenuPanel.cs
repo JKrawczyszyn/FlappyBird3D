@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Menu.Controllers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Menu.Views
@@ -29,15 +30,29 @@ namespace Menu.Views
                 AddButton(label);
             
             foreach (var button in buttons)
-                button.onClick.AddListener(() => { context.ButtonPressed = buttons.IndexOf(button); });
+                button.onClick.AddListener(() =>
+                                           {
+                                               button.interactable = false;
+                                               context.ButtonPressed = buttons.IndexOf(button);
+                                           });
         }
 
         private void AddButton(string label)
         {
-            var button = Instantiate(buttonPrefab, container);
-            button.GetComponentInChildren<TextMeshProUGUI>().text = label;
+            var instance = Instantiate(buttonPrefab, container);
+            instance.GetComponentInChildren<TextMeshProUGUI>().text = label;
 
-            buttons.Add(button);
+            buttons.Add(instance);
+        }
+
+        public void Back()
+        {
+        }
+
+        public void Move()
+        {
+            if (EventSystem.current.currentSelectedGameObject == null)
+                EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
         }
     }
 }

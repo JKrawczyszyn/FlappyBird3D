@@ -10,8 +10,6 @@ namespace Game.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<InputControls>().AsSingle();
-
             Container.BindAllDerivedInterfacesAndSelf<IController>(m => m.AsSingle().NonLazy());
 
             Container.BindInterfacesAndSelfTo<MovingObjectsController<ObstacleModel>>().AsSingle();

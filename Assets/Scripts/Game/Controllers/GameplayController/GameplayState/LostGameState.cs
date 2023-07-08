@@ -30,7 +30,7 @@ namespace Game.Controllers
 
         public override async UniTask OnEnter()
         {
-            score = new Score((int)Data, DateTime.Now, "Player");
+            score = new Score((int)Data, DateTime.Now, "ME");
 
             gameStateService.SetLastScore(score);
 
@@ -42,14 +42,7 @@ namespace Game.Controllers
 
             await UniTask.Delay(TimeSpan.FromSeconds(config.gameplayConfig.endGameInteractionDelay));
 
-            gameInputController.OnInteract += Interact;
-            gameInputController.InteractionEnable();
-        }
-
-        private void Interact()
-        {
-            gameInputController.OnInteract -= Interact;
-            gameInputController.InteractionDisable();
+            await gameInputController.WaitForInteraction();
 
             flowController.LoadMenu(score);
         }

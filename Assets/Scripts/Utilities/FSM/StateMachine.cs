@@ -34,6 +34,8 @@ namespace Utilities.FSM
                 states.Add(type, state);
             }
 
+            Debug.Log($"Enqueue state '{type.Name}'.");
+
             pendingTransitions.Enqueue((type, data));
 
             StartIfShould();
@@ -46,7 +48,7 @@ namespace Utilities.FSM
 
             running = true;
 
-            Update();
+            Update().Forget();
         }
 
         public void Stop()
@@ -56,7 +58,7 @@ namespace Utilities.FSM
             pendingTransitions.Clear();
         }
 
-        private async void Update()
+        private async UniTask Update()
         {
             while (pendingTransitions.Count > 0)
             {
@@ -66,7 +68,7 @@ namespace Utilities.FSM
                 var transition = pendingTransitions.Dequeue();
                 var cancel = await ChangeTo(transition.type, transition.data).SuppressCancellationThrow();
                 if (cancel)
-                    running = false;
+                    break;
             }
 
             running = false;
@@ -78,7 +80,7 @@ namespace Utilities.FSM
             {
                 T previousState = CurrentState;
 
-                Debug.Log($"Change state from '{CurrentState.GetType()}'.");
+                Debug.Log($"Change state from '{CurrentState.GetType().Name}'.");
 
                 await previousState.OnExit();
 
@@ -92,7 +94,7 @@ namespace Utilities.FSM
 
             CurrentState = nextState;
 
-            Debug.Log($"Change state to '{CurrentState.GetType()}'.");
+            Debug.Log($"Change state to '{CurrentState.GetType().Name}'.");
 
             await CurrentState.OnEnter();
         }

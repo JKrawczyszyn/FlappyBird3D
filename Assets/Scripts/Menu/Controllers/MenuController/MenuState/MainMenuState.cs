@@ -15,7 +15,7 @@ namespace Menu.Controllers
 
         public override async UniTask OnEnter()
         {
-            var context = new MainMenuPanelContext("Main Menu", "Start Game", "High Scores");
+            var context = new MainMenuPanelContext("Flappy Bird 3D", "Start Game", "High Scores");
 
             menuController.OpenPanel(context);
 

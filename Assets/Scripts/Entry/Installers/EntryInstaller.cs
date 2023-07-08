@@ -24,6 +24,7 @@ namespace Entry.Installers
             Container.BindInstance(config).AsSingle();
             Container.BindInstance(assetsRepository).AsSingle();
 
+            Container.Bind<InputActions>().AsSingle();
             Container.Bind<SceneLoader>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<FlowController>().AsSingle();

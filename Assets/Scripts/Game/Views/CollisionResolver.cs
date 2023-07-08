@@ -27,6 +27,9 @@ namespace Game.Views
 
         public void BirdCollision(Collider collider)
         {
+            if (gameplayController.CurrentState is not StartGameState)
+                return;
+
             if (collider.CompareTag(Constants.ObstacleTag))
                 gameplayController.LostGame();
             else if (collider.CompareTag(Constants.CollectibleTag))

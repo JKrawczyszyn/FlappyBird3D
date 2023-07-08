@@ -204,7 +204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29181d586e195604d90aa048cad4eaf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameConfig: {fileID: 11400000, guid: 8fb15453fb1cec54dbeb05e29e513b0e, type: 2}
 --- !u!114 &204250543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,7 +1134,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1829224616}
   - component: {fileID: 1829224617}
-  - component: {fileID: 1829224618}
   m_Layer: 0
   m_Name: WallsView
   m_TagString: Untagged
@@ -1168,19 +1166,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93fcd73fd4b52e34094653b3ae5bc6ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loopView: {fileID: 1829224618}
---- !u!114 &1829224618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829224615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8588513d36b34b4eabdb3161378a37b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 1829224616}

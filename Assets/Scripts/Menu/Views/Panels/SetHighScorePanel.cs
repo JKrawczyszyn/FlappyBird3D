@@ -1,13 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
 using Menu.Controllers;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Menu.Views
 {
-    public class EnterHighScorePanel : MonoBehaviour, IPanel
+    public class SetHighScorePanel : MonoBehaviour, IPanel
     {
         [SerializeField]
         private TextMeshProUGUI titleText;
@@ -27,6 +24,14 @@ namespace Menu.Views
                                                  context.Name = value;
                                                  context.NameEntered = true;
                                              });
+        }
+
+        public void Back()
+        {
+        }
+
+        public void Move()
+        {
         }
     }
 }

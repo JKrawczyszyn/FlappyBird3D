@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.InputSystem;
 using Utilities.FSM;
 using Zenject;
 
@@ -7,6 +8,8 @@ namespace Menu.Controllers
     public class MenuController : IDisposable
     {
         public event Action<IPanelContext> OnOpenPanel;
+        public event Action OnBack;
+        public event Action OnMove;
 
         [Inject]
         private readonly StateMachine<MenuState> stateMachine;
@@ -24,6 +27,16 @@ namespace Menu.Controllers
         public void OpenPanel(IPanelContext context)
         {
             OnOpenPanel?.Invoke(context);
+        }
+
+        public void Back(InputAction.CallbackContext _)
+        {
+            OnBack?.Invoke();
+        }
+
+        public void Move(InputAction.CallbackContext _)
+        {
+            OnMove?.Invoke();
         }
     }
 }

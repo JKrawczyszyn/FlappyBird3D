@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 using Zenject;
 
@@ -7,15 +8,13 @@ namespace Game.Controllers
     public class GameInputController : IController, IInitializable, IDisposable
     {
         [Inject]
-        private InputControls gameControls;
+        private InputActions inputActions;
 
         public event Action OnBirdJump;
-        public event Action OnInteract;
 
         public void Initialize()
         {
-            gameControls.Game.Jump.performed += Jump;
-            gameControls.Game.Interact.performed += Interact;
+            inputActions.Game.Jump.performed += Jump;
         }
 
         private void Jump(InputAction.CallbackContext _)
@@ -23,39 +22,32 @@ namespace Game.Controllers
             OnBirdJump?.Invoke();
         }
 
-        private void Interact(InputAction.CallbackContext _)
+        public async UniTask WaitForInteraction()
         {
-            OnInteract?.Invoke();
+            inputActions.Game.Interact.Enable();
+
+            await UniTask.WaitUntil(() => inputActions.Game.Interact.triggered);
+
+            inputActions.Game.Interact.Disable();
         }
 
         public void BirdEnable()
         {
-            gameControls.Game.Jump.Enable();
-            gameControls.Game.Move.Enable();
+            inputActions.Game.Jump.Enable();
+            inputActions.Game.Move.Enable();
         }
 
         public void BirdDisable()
         {
-            gameControls.Game.Jump.Disable();
-            gameControls.Game.Move.Disable();
+            inputActions.Game.Jump.Disable();
+            inputActions.Game.Move.Disable();
         }
 
-        public float BirdMoveValue() => gameControls.Game.Move.ReadValue<float>();
-
-        public void InteractionEnable()
-        {
-            gameControls.Game.Interact.Enable();
-        }
-
-        public void InteractionDisable()
-        {
-            gameControls.Game.Interact.Disable();
-        }
+        public float BirdMoveValue() => inputActions.Game.Move.ReadValue<float>();
 
         public void Dispose()
         {
-            gameControls.Game.Jump.performed -= Jump;
-            gameControls.Game.Interact.performed -= Interact;
+            inputActions.Game.Jump.performed -= Jump;
         }
     }
 }

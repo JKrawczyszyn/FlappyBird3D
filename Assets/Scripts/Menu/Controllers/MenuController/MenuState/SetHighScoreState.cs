@@ -23,7 +23,7 @@ namespace Menu.Controllers
             if (score != null && highScoresService.IsScoreHighEnough(score.value))
             {
                 var context = new SetHighScorePanelContext(
-                    $"Congratulations! You got a score of {score.value}, and made it to high scores!\nEnter your name:",
+                    $"Congratulations! You got a score of {score.value}, and made it to high scores!\nEnter your initials:",
                     score.name);
 
                 menuController.OpenPanel(context);

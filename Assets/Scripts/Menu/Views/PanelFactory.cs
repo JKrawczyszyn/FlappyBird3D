@@ -55,7 +55,7 @@ namespace Menu.Views
                 {
                     var panelName = assets.FilterWithTag(AssetTag.EnterHighScorePanel).GetRandom().name;
 
-                    var panel = assetsService.Instantiate<EnterHighScorePanel>(panelName, Vector3.zero, container);
+                    var panel = assetsService.Instantiate<SetHighScorePanel>(panelName, Vector3.zero, container);
 
                     panel.Initialize(setHighScorePanelContext);
 

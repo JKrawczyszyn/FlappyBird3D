@@ -1,6 +1,7 @@
 ﻿using Entry.Models;
 using Menu.Controllers;
 using UnityEngine;
+using UnityEngine.InputSystem.UI;
 using Zenject;
 
 namespace Menu.Views
@@ -16,6 +17,8 @@ namespace Menu.Views
         [Inject]
         private PanelFactory panelFactory;
 
+        private InputSystemUIInputModule inputModule;
+
         private Asset[] assets;
 
         private IPanel currentPanel;
@@ -24,6 +27,12 @@ namespace Menu.Views
         private void Construct()
         {
             menuController.OnOpenPanel += OpenPanel;
+            menuController.OnBack += Back;
+            menuController.OnMove += Move;
+
+            inputModule = FindObjectOfType<InputSystemUIInputModule>();
+            inputModule.cancel.action.performed += menuController.Back;
+            inputModule.move.action.performed += menuController.Move;
         }
 
         private void OpenPanel(IPanelContext context)
@@ -34,9 +43,24 @@ namespace Menu.Views
             currentPanel = panelFactory.Create(context, container);
         }
 
+        private void Back()
+        {
+            currentPanel.Back();
+        }
+
+        private void Move()
+        {
+            currentPanel.Move();
+        }
+
         public void OnDestroy()
         {
             menuController.OnOpenPanel -= OpenPanel;
+            menuController.OnBack -= Back;
+            menuController.OnMove -= Move;
+
+            inputModule.cancel.action.performed -= menuController.Back;
+            inputModule.move.action.performed -= menuController.Move;
         }
     }
 }
