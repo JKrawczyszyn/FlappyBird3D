@@ -14,7 +14,7 @@ namespace Game.Controllers
 
         public GameplayState CurrentState => stateMachine.CurrentState;
 
-        public void StartGame()
+        public void Initialize()
         {
             stateMachine.Transition<CountdownState>();
         }

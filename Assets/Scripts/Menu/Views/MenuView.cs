@@ -35,15 +35,13 @@ namespace Menu.Views
         [Inject]
         private async UniTaskVoid Construct()
         {
-            assets = assetsRepository.AssetsForScene(SceneName.Menu);
-
-            await assetsService.CacheReferences<Button>(assets.Select(a => a.name));
-
             menuController.OnAddButton += AddButton;
             menuController.OnWaitForButtonResult += WaitForButtonResult;
             menuController.OnRemoveButtons += RemoveButtons;
 
-            menuController.Initialize();
+            assets = assetsRepository.AssetsForScene(SceneName.Menu);
+
+            await assetsService.CacheReferences<Button>(assets.Select(a => a.name));
         }
 
         private void AddButton(string label, Action action)
