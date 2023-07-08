@@ -1,4 +1,5 @@
 using System;
+using Entry.Models;
 using Utilities.FSM;
 using Zenject;
 
@@ -14,9 +15,9 @@ namespace Entry.Controllers
             stateMachine.Transition<LoadMenuState>();
         }
 
-        public void LoadMenu()
+        public void LoadMenu(Score score)
         {
-            stateMachine.Transition<LoadMenuState>();
+            stateMachine.Transition<LoadMenuState, Score>(score);
         }
 
         public void LoadGame()

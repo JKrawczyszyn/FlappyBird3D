@@ -76,7 +76,7 @@ namespace Utilities.FSM
         {
             if (CurrentState != null)
             {
-                var previousState = CurrentState;
+                T previousState = CurrentState;
 
                 Debug.Log($"Change state from '{CurrentState.GetType()}'.");
 

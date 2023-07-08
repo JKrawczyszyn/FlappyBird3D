@@ -1,13 +1,14 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Entry.Controllers;
+using Entry.Models;
 using Zenject;
 
 namespace Game.Controllers
 {
     public class LostGameState : GameplayState
     {
-        public event Action<int> OnStart;
+        public event Action<Score> OnStart;
 
         [Inject]
         private SpeedController speedController;
@@ -21,13 +22,17 @@ namespace Game.Controllers
         [Inject]
         private GameConfig gameConfig;
 
+        private Score score;
+
         public override async UniTask OnEnter()
         {
+            score = new Score((int)Data, DateTime.Now, "Player");
+
             speedController.SetSpeed(0f);
 
             gameInputController.BirdDisable();
 
-            OnStart?.Invoke((int)Data);
+            OnStart?.Invoke(score);
 
             await UniTask.Delay(TimeSpan.FromSeconds(gameConfig.gameplayConfig.endGameInteractionDelay));
 
@@ -40,7 +45,7 @@ namespace Game.Controllers
             gameInputController.OnInteract -= Interact;
             gameInputController.InteractionDisable();
 
-            flowController.LoadMenu();
+            flowController.LoadMenu(score);
         }
     }
 }

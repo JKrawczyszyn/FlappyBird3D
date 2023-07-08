@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Entry.Models;
 using Game.Controllers;
 using TMPro;
 using UnityEngine;
@@ -60,9 +61,9 @@ namespace Game.Views
             countdownText.gameObject.SetActive(false);
         }
 
-        private void LostGameStart(int score)
+        private void LostGameStart(Score score)
         {
-            gameOverText.text = $"Game Over\nScore: {score}";
+            gameOverText.text = $"Game Over\nScore: {score.value}";
 
             gameOverText.gameObject.SetActive(true);
             scoreText.gameObject.SetActive(false);

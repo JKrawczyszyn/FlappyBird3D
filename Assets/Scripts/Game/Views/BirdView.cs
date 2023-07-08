@@ -1,4 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using Entry.Models;
+using Entry.Services;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -17,7 +19,7 @@ namespace Game.Views
         private AssetsRepository assetsRepository;
 
         [Inject]
-        private AssetsProvider assetsProvider;
+        private AssetsService assetsService;
 
         [Inject]
         private GameConfig gameConfig;
@@ -31,9 +33,9 @@ namespace Game.Views
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Bird);
 
-            await assetsProvider.CacheReferences<Bird>(assetNames);
+            await assetsService.CacheReferences<Bird>(assetNames);
 
-            bird = assetsProvider.Instantiate<Bird>(assetNames.GetRandom(), gameConfig.birdConfig.startPosition,
+            bird = assetsService.Instantiate<Bird>(assetNames.GetRandom(), gameConfig.birdConfig.startPosition,
                                                     container);
 
             context.Container.Inject(bird);

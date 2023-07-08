@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Game.Controllers
@@ -49,7 +48,7 @@ namespace Game.Controllers
 
         public void Tick()
         {
-            var value = gameInputController.BirdMoveValue();
+            float value = gameInputController.BirdMoveValue();
             if (value != 0f)
                 Move(value * Time.deltaTime);
         }

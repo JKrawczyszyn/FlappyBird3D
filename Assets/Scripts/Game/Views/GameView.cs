@@ -1,7 +1,8 @@
 using Cysharp.Threading.Tasks;
+using Entry.Models;
+using Entry.Services;
 using Game.Controllers;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Game.Views
@@ -15,7 +16,7 @@ namespace Game.Views
         private AssetsRepository assetsRepository;
 
         [Inject]
-        private AssetsProvider assetsProvider;
+        private AssetsService assetsService;
 
         private async void Start()
         {
@@ -24,7 +25,7 @@ namespace Game.Views
 
         private async UniTask StartGame()
         {
-            await assetsProvider.WaitForCache(assetsRepository.AssetNamesForScene(SceneName.Game));
+            await assetsService.WaitForCache(assetsRepository.AssetNamesForScene(SceneName.Game));
 
             gameplayController.StartGame();
         }

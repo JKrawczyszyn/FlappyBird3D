@@ -20,7 +20,7 @@ namespace Game.Controllers
 
         private async UniTask Countdown()
         {
-            var time = gameConfig.gameplayConfig.countdownTime;
+            float time = gameConfig.gameplayConfig.countdownTime;
 
             OnStart?.Invoke(time);
 

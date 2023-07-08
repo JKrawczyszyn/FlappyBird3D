@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Utilities
+namespace Entry.Services
 {
-    public class AssetsProvider
+    public class AssetsService : IService
     {
         private readonly Dictionary<Type, IAssetsManager> managers = new();
 
         public async UniTask CacheReferences<T>(IEnumerable<string> names) where T : Component
         {
-            var manager = GetAssetsManager<T>();
+            IAssetsManager manager = GetAssetsManager<T>();
 
             await ((AssetsManager<T>)manager).CacheReferences(names);
         }
 
         private IAssetsManager GetAssetsManager<T>() where T : Component
         {
-            var type = typeof(T);
+            Type type = typeof(T);
 
             if (managers.TryGetValue(type, out IAssetsManager manager))
                 return manager;
@@ -32,7 +32,7 @@ namespace Utilities
 
         public T Instantiate<T>(string name, Vector3 position, Transform parent) where T : Component
         {
-            var type = typeof(T);
+            Type type = typeof(T);
 
             if (managers.TryGetValue(type, out IAssetsManager manager))
                 return ((AssetsManager<T>)manager).Instantiate(name, position, parent);
@@ -44,7 +44,7 @@ namespace Utilities
 
         public void Release<T>(T instance) where T : Component
         {
-            var type = typeof(T);
+            Type type = typeof(T);
 
             if (managers.TryGetValue(type, out IAssetsManager manager))
             {

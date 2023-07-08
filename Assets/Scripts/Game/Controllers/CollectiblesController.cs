@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Models;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -41,16 +42,16 @@ namespace Game.Controllers
         private CollectibleModel GetModel(float position)
         {
             var config = (CollectiblesConfig)movingObjectsController.Config;
-            var id = IdProvider.GetNextId();
-            var xPosition = Random.Range(config.spawnMin.x, config.spawnMax.x);
-            var yPosition = Random.Range(config.spawnMin.y, config.spawnMax.y);
+            int id = IdProvider.GetNextId();
+            float xPosition = Random.Range(config.spawnMin.x, config.spawnMax.x);
+            float yPosition = Random.Range(config.spawnMin.y, config.spawnMax.y);
 
             return new CollectibleModel(id, new Vector3(xPosition, yPosition, position));
         }
 
         public void Remove(int id)
         {
-            var model = movingObjectsController.Models.First(m => m.Id == id);
+            CollectibleModel model = movingObjectsController.Models.First(m => m.Id == id);
             movingObjectsController.RemoveModel(model);
         }
     }

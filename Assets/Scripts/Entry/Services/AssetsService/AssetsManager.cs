@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
 using UnityEngine.Pool;
+using Utilities;
 using Object = UnityEngine.Object;
 
-namespace Utilities
+namespace Entry.Services
 {
     internal interface IAssetsManager
     {
@@ -24,7 +25,7 @@ namespace Utilities
 
         public async UniTask CacheReferences(IEnumerable<string> names)
         {
-            var tasks = names.Select(CacheReference);
+            IEnumerable<UniTask> tasks = names.Select(CacheReference);
             await UniTask.WhenAll(tasks);
         }
 
@@ -35,7 +36,7 @@ namespace Utilities
 
         public T Instantiate(string name, Vector3 position, Transform parent)
         {
-            if (nameToReference.TryGetValue(name, out var reference))
+            if (nameToReference.TryGetValue(name, out AssetReference reference))
                 return Instantiate(reference, position, parent);
 
             Debug.Log($"Reference not found for '{name}'. Cache object first.");
@@ -59,7 +60,7 @@ namespace Utilities
                 return null;
             }
 
-            var instance = pool.Get();
+            T instance = pool.Get();
 
             if (instance == null)
             {
@@ -159,11 +160,11 @@ namespace Utilities
                 var referenceAsset = reference.Asset as GameObject;
                 Assert.IsNotNull(referenceAsset, $"Reference '{reference}' is not a GameObject.");
 
-                var go = Object.Instantiate(referenceAsset);
+                GameObject go = Object.Instantiate(referenceAsset);
 
                 Assert.IsNotNull(go, $"Can't instantiate GameObject from '{referenceAsset}'.");
 
-                var success = go.TryGetComponent(out T component);
+                bool success = go.TryGetComponent(out T component);
                 Assert.IsTrue(success, $"No component found in '{go}'.");
 
                 go.name = NormalizeName(go.name);
@@ -192,13 +193,13 @@ namespace Utilities
 
         public void ClearPools()
         {
-            foreach (var pool in referenceToPool.Values)
+            foreach (IObjectPool<T> pool in referenceToPool.Values)
                 pool.Clear();
         }
 
         public void Dispose()
         {
-            foreach (var reference in referenceToPool.Keys)
+            foreach (AssetReference reference in referenceToPool.Keys)
             {
                 if (reference.IsValid())
                     reference.ReleaseAsset();

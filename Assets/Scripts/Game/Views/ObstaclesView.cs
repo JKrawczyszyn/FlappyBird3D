@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Entry.Models;
+using Entry.Services;
 using Game.Controllers;
+using Game.Models;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Game.Views
@@ -19,14 +21,14 @@ namespace Game.Views
         private AssetsRepository assetsRepository;
 
         [Inject]
-        private AssetsProvider assetsProvider;
+        private AssetsService assetsService;
 
         [Inject]
         private ObstaclesController obstaclesController;
 
         private string[] assetNames;
 
-        private readonly Dictionary<int, Obstacle> elements = new();
+        private readonly Dictionary<int, Obstacle> instances = new();
 
         [Inject]
         private async UniTaskVoid Construct()
@@ -38,7 +40,7 @@ namespace Game.Views
 
             assetNames = assetsRepository.AssetNames(AssetTag.Obstacle);
 
-            await assetsProvider.CacheReferences<Obstacle>(assetNames);
+            await assetsService.CacheReferences<Obstacle>(assetNames);
 
             obstaclesController.Initialize();
         }
@@ -46,26 +48,26 @@ namespace Game.Views
         private void Add(ObstacleModel model)
         {
             var assetName = assetNames[model.Type];
-            var element = assetsProvider.Instantiate<Obstacle>(assetName, Vector3.forward * model.Position, container);
-            element.SetAlpha(1f);
-            elements.Add(model.Id, element);
+            var instance = assetsService.Instantiate<Obstacle>(assetName, Vector3.forward * model.Position, container);
+            instance.SetAlpha(1f);
+            instances.Add(model.Id, instance);
         }
 
         private void Remove(ObstacleModel model)
         {
-            assetsProvider.Release(elements[model.Id]);
-            elements.Remove(model.Id);
+            assetsService.Release(instances[model.Id]);
+            instances.Remove(model.Id);
         }
 
         private void UpdatePositions(List<ObstacleModel> models)
         {
             foreach (var model in models)
-                elements[model.Id].transform.position = Vector3.forward * model.Position;
+                instances[model.Id].transform.position = Vector3.forward * model.Position;
         }
 
         private void PassedPlayer(ObstacleModel model)
         {
-            elements[model.Id].SetAlpha(gameConfig.obstaclesConfig.behindAlpha);
+            instances[model.Id].SetAlpha(gameConfig.obstaclesConfig.behindAlpha);
         }
 
         private void OnDestroy()

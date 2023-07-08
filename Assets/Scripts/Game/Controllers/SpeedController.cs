@@ -1,4 +1,5 @@
 using System;
+using Game.Models;
 using UnityEngine;
 using Utilities;
 using Zenject;

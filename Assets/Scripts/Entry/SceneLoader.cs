@@ -1,8 +1,9 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Entry.Models;
+using Entry.Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Utilities;
 using Zenject;
 
 namespace Entry
@@ -16,7 +17,7 @@ namespace Entry
         private AssetsRepository assetsRepository;
 
         [Inject]
-        private AssetsProvider assetsProvider;
+        private AssetsService assetsService;
 
         public async UniTask Load(SceneName name)
         {
@@ -26,7 +27,7 @@ namespace Entry
 
             await SceneManager.LoadSceneAsync(nameString, LoadSceneMode.Additive);
 
-            await assetsProvider.WaitForCache(assetsRepository.AssetNamesForScene(name));
+            await assetsService.WaitForCache(assetsRepository.AssetNamesForScene(name));
 
             if (OnSceneLoadEnd != null)
                 await OnSceneLoadEnd();
@@ -36,7 +37,7 @@ namespace Entry
         {
             var nameString = name.ToString();
 
-            var scene = SceneManager.GetSceneByName(nameString);
+            Scene scene = SceneManager.GetSceneByName(nameString);
             if (!scene.isLoaded)
                 return;
 
@@ -45,7 +46,7 @@ namespace Entry
             if (OnSceneUnloadStart != null)
                 await OnSceneUnloadStart();
 
-            assetsProvider.ClearPools();
+            assetsService.ClearPools();
 
             await SceneManager.UnloadSceneAsync(nameString);
         }

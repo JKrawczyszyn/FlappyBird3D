@@ -17,7 +17,7 @@ namespace Menu.Controllers
         {
             menuController.SetButtons("Start Game", "High Scores");
 
-            var result = await menuController.WaitForButtonResult();
+            int result = await menuController.WaitForButtonResult();
 
             switch (result)
             {

@@ -19,7 +19,7 @@ namespace Game.Views
         private int interval;
         private int loopLength;
 
-        private readonly List<GameObject> elements = new();
+        private readonly List<GameObject> instances = new();
 
         [Inject]
         private void Construct()
@@ -35,7 +35,7 @@ namespace Game.Views
             this.interval = interval;
             this.loopLength = loopLength;
 
-            CreateElements(createCallback, assetName);
+            CreateInstances(createCallback, assetName);
         }
 
         private void SpeedChanged(float speed)
@@ -43,33 +43,33 @@ namespace Game.Views
             moveSpeed = speed;
         }
 
-        private void CreateElements(Func<string, Vector3, Transform, GameObject> createCallback, string assetName)
+        private void CreateInstances(Func<string, Vector3, Transform, GameObject> createCallback, string assetName)
         {
             for (var i = 0; i < loopLength; i++)
             {
-                var go = createCallback(assetName, i * Vector3.forward * interval, container);
-                elements.Add(go);
+                var instance = createCallback(assetName, i * Vector3.forward * interval, container);
+                instances.Add(instance);
             }
         }
 
         private void Update()
         {
-            UpdateElementsPositions();
+            UpdateInstancesPositions();
         }
 
-        private void UpdateElementsPositions()
+        private void UpdateInstancesPositions()
         {
             if (moveSpeed == 0f)
                 return;
 
             var positionChange = -Vector3.forward * moveSpeed * Time.deltaTime;
 
-            foreach (var element in elements)
+            foreach (var go in instances)
             {
-                element.transform.position += positionChange;
+                go.transform.position += positionChange;
 
-                if (element.transform.position.z < -interval)
-                    element.transform.position += Vector3.forward * interval * loopLength;
+                if (go.transform.position.z < -interval)
+                    go.transform.position += Vector3.forward * interval * loopLength;
             }
         }
 

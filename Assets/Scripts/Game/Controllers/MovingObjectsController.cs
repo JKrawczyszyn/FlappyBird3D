@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Models;
 using UnityEngine;
 using Zenject;
 
@@ -16,7 +17,7 @@ namespace Game.Controllers
         private SpeedController speedController;
 
         private readonly List<T> models = new();
-        public IEnumerable<T> Models => models;
+        public IEnumerable<T> Models => models.AsReadOnly();
 
         public MovingObjectsConfig Config { get; private set; }
         private Func<float, T> modelGetter;
@@ -36,7 +37,7 @@ namespace Game.Controllers
             Config = config;
             this.modelGetter = modelGetter;
 
-            CreateStartElements();
+            CreateStartModels();
         }
 
         private void SpeedChanged(float speed)
@@ -44,9 +45,9 @@ namespace Game.Controllers
             MoveSpeed = speed;
         }
 
-        private void CreateStartElements()
+        private void CreateStartModels()
         {
-            var currentPosition = Config.startSpawnDistance;
+            int currentPosition = Config.startSpawnDistance;
 
             while (currentPosition < Config.maxSpawnDistance)
             {
@@ -70,9 +71,9 @@ namespace Game.Controllers
 
         private void UpdatePositions()
         {
-            var positionChange = -MoveSpeed * Time.deltaTime;
+            float positionChange = -MoveSpeed * Time.deltaTime;
 
-            foreach (var model in models)
+            foreach (T model in models)
                 model.PositionZ += positionChange;
 
             OnUpdatePositions?.Invoke(models);
@@ -80,8 +81,8 @@ namespace Game.Controllers
 
         private void UpdateRemove()
         {
-            var toDestroy = models.Where(e => !IsInsideOfView(e.PositionZ));
-            foreach (var model in toDestroy.ToArray())
+            IEnumerable<T> toDestroy = models.Where(e => !IsInsideOfView(e.PositionZ));
+            foreach (T model in toDestroy.ToArray())
                 RemoveModel(model);
         }
 
@@ -102,8 +103,7 @@ namespace Game.Controllers
 
         private void AddModel(float position)
         {
-            var model = modelGetter(position);
-
+            T model = modelGetter(position);
             models.Add(model);
 
             OnAdd?.Invoke(model);

@@ -35,7 +35,7 @@ namespace Game.Views
 
                 Assert.IsNotNull(collectible, $"Collectible component is missing on '{collider.gameObject.name}'.");
 
-                var id = collectiblesView.GetId(collectible);
+                int id = collectiblesView.GetId(collectible);
 
                 Assert.IsTrue(id > 0, $"Collectible id '{id}' is invalid.");
 

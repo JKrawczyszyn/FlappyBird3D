@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Entry.Models;
+using Game.Models;
 using Utilities;
 using Zenject;
 
@@ -47,8 +49,8 @@ namespace Game.Controllers
 
         private ObstacleModel GetModel(float position)
         {
-            var id = IdProvider.GetNextId();
-            var type = types.GetRandom();
+            int id = IdProvider.GetNextId();
+            int type = types.GetRandom();
 
             return new ObstacleModel(id, type, position);
         }
@@ -63,7 +65,7 @@ namespace Game.Controllers
 
         private void UpdatePassed()
         {
-            foreach (var model in movingObjectsController.Models)
+            foreach (ObstacleModel model in movingObjectsController.Models)
             {
                 if (model.IsPassed || model.Position > gameConfig.birdConfig.startPosition.z)
                     continue;

@@ -1,4 +1,4 @@
-namespace Game.Controllers
+namespace Game.Models
 {
     public interface IMovingObjectModel
     {

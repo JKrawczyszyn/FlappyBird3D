@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Entry.Models;
+using Entry.Services;
 using Menu.Controllers;
 using TMPro;
 using UnityEngine;
@@ -21,7 +23,7 @@ namespace Menu.Views
         private AssetsRepository assetsRepository;
 
         [Inject]
-        private AssetsProvider assetsProvider;
+        private AssetsService assetsService;
 
         [Inject]
         private MenuController menuController;
@@ -35,7 +37,7 @@ namespace Menu.Views
         {
             assets = assetsRepository.AssetsForScene(SceneName.Menu);
 
-            await assetsProvider.CacheReferences<Button>(assets.Select(a => a.name));
+            await assetsService.CacheReferences<Button>(assets.Select(a => a.name));
 
             menuController.OnAddButton += AddButton;
             menuController.OnWaitForButtonResult += WaitForButtonResult;
@@ -48,7 +50,7 @@ namespace Menu.Views
         {
             var buttonName = assets.Where(a => a.tag == AssetTag.MenuButton).GetRandom().name;
 
-            var button = assetsProvider.Instantiate<Button>(buttonName, Vector3.zero, container);
+            var button = assetsService.Instantiate<Button>(buttonName, Vector3.zero, container);
             button.GetComponentInChildren<TextMeshProUGUI>().text = label;
 
             buttons.Add(button);

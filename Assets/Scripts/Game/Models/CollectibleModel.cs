@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Controllers
+namespace Game.Models
 {
     public record CollectibleModel(int Id) : IMovingObjectModel
     {

@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using Entry.Models;
+using Entry.Services;
 using UnityEngine;
 using Utilities;
 using Zenject;
@@ -11,7 +13,7 @@ namespace Game.Views
         private InfiniteLoopView loopView;
 
         [Inject]
-        private AssetsProvider assetsProvider;
+        private AssetsService assetsService;
 
         [Inject]
         private GameConfig gameConfig;
@@ -28,12 +30,12 @@ namespace Game.Views
         {
             assetNames = assetsRepository.AssetNames(AssetTag.Walls);
 
-            await assetsProvider.CacheReferences<Walls>(assetNames);
+            await assetsService.CacheReferences<Walls>(assetNames);
 
             loopView.Initialize(assetNames.GetRandom(), Config.interval, Config.loop, CreateWall);
         }
 
         private GameObject CreateWall(string name, Vector3 position, Transform parent) =>
-            assetsProvider.Instantiate<Walls>(name, position, parent).gameObject;
+            assetsService.Instantiate<Walls>(name, position, parent).gameObject;
     }
 }

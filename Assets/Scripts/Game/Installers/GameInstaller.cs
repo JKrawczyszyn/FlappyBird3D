@@ -1,4 +1,5 @@
 using Game.Controllers;
+using Game.Models;
 using UnityEngine;
 using Utilities;
 using Utilities.FSM;

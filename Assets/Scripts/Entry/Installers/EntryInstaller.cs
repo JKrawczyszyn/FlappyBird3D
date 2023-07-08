@@ -1,4 +1,5 @@
 using Entry.Controllers;
+using Entry.Services;
 using UnityEngine;
 using Utilities;
 using Utilities.FSM;
@@ -20,9 +21,10 @@ namespace Entry.Installers
             Container.BindInstance(assetsRepository);
 
             Container.Bind<SceneLoader>().AsSingle();
-            Container.Bind<AssetsProvider>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<FlowController>().AsSingle();
+
+            Container.BindAllDerivedInterfacesAndSelf<IService>(m => m.AsSingle().NonLazy());
 
             FSMInstaller<FlowState>.Install(Container);
         }

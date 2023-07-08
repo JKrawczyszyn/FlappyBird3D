@@ -1,4 +1,4 @@
-namespace Game.Controllers
+namespace Game.Models
 {
     public record ObstacleModel(int Id, int Type) : IMovingObjectModel
     {
