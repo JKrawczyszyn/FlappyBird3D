@@ -41,9 +41,10 @@ namespace Game.Views
 
         public int GetId(Collectible collectible)
         {
-            foreach (var element in elements)
-                if (element.Value == collectible)
-                    return element.Key;
+            // Can be optimized if necessary by using reverse/bidirectional dictionary.
+            foreach ((int id, Collectible element) in elements)
+                if (element == collectible)
+                    return id;
 
             return -1;
         }

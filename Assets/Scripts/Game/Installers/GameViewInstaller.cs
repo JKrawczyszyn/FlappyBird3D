@@ -7,9 +7,6 @@ namespace Game.Installers
     public class GameViewInstaller : MonoInstaller<GameViewInstaller>
     {
         [SerializeField]
-        private WallsView wallsView;
-
-        [SerializeField]
         private CollectiblesView collectiblesView;
 
         [SerializeField]
@@ -17,7 +14,6 @@ namespace Game.Installers
 
         public override void InstallBindings()
         {
-            Container.BindInstance(wallsView);
             Container.BindInstance(collectiblesView);
             Container.BindInstance(collisionResolver);
         }

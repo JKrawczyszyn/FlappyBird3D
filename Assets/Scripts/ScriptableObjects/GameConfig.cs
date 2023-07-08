@@ -6,6 +6,7 @@ public class GameConfig : ScriptableObject
 {
     public int frameRate = -1;
     public float gravity = 40;
+    public bool debugMode = false;
 
     public GameplayConfig gameplayConfig;
     public BirdConfig birdConfig;

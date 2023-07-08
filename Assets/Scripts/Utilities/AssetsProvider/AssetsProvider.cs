@@ -64,11 +64,8 @@ namespace Utilities
             {
                 cachedNames.Clear();
 
-                foreach (KeyValuePair<Type, IAssetsManager> pair in managers)
-                {
-                    var manager = pair.Value;
+                foreach ((Type _, IAssetsManager manager) in managers)
                     cachedNames.UnionWith(manager.CachedNames);
-                }
 
                 if (cachedNames.IsSupersetOf(names))
                     return;
@@ -80,11 +77,8 @@ namespace Utilities
 
         public void ClearPools()
         {
-            foreach (KeyValuePair<Type, IAssetsManager> pair in managers)
-            {
-                var manager = pair.Value;
+            foreach ((Type _, IAssetsManager manager) in managers)
                 manager.ClearPools();
-            }
         }
     }
 }

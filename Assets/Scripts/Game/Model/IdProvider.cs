@@ -5,10 +5,5 @@ namespace Game.Controllers
         private static int currentId;
 
         public static int GetNextId() => ++currentId;
-
-        public static void ResetId()
-        {
-            currentId = 0;
-        }
     }
 }

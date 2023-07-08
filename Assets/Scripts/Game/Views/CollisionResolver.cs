@@ -1,5 +1,6 @@
 using Game.Controllers;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Utilities;
 using Zenject;
 
@@ -8,10 +9,10 @@ namespace Game.Views
     public class CollisionResolver : MonoBehaviour
     {
         [Inject]
-        private GameplayController gameplayController;
+        private CollectiblesView collectiblesView;
 
         [Inject]
-        private CollectiblesView collectiblesView;
+        private GameplayController gameplayController;
 
         [Inject]
         private CollectiblesController collectiblesController;
@@ -30,7 +31,13 @@ namespace Game.Views
                 gameplayController.LostGame();
             else if (collider.CompareTag(Constants.CollectibleTag))
             {
-                var id = collectiblesView.GetId(collider.gameObject.GetComponent<Collectible>());
+                var collectible = collider.gameObject.GetComponent<Collectible>();
+
+                Assert.IsNotNull(collectible, $"Collectible component is missing on '{collider.gameObject.name}'.");
+
+                var id = collectiblesView.GetId(collectible);
+
+                Assert.IsTrue(id > 0, $"Collectible id '{id}' is invalid.");
 
                 collectiblesController.Remove(id);
 

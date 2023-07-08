@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b95fab4424015479ed9428586c9703, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  frameRate: -1
+  frameRate: 60
   gravity: 40
-  acceleration: 2
+  debugMode: 0
   gameplayConfig:
     startSpeed: 5
     countdownTime: 3
     endGameInteractionDelay: 2
     speedUpInterval: 5
     speedUpValue: 2
+    speedUpAcceleration: 1
   birdConfig:
     maxSpeed: 5
     jumpForce: 3
