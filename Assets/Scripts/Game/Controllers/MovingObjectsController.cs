@@ -37,13 +37,11 @@ namespace Game.Controllers
         {
             Config = config;
             this.modelGetter = modelGetter;
-
-            CreateStartModels();
         }
 
-        private void SpeedChanged(float speed)
+        public void Start()
         {
-            MoveSpeed = speed;
+            CreateStartModels();
         }
 
         private void CreateStartModels()
@@ -58,6 +56,11 @@ namespace Game.Controllers
 
                 currentPosition += Config.intervalDistance;
             }
+        }
+
+        private void SpeedChanged(float speed)
+        {
+            MoveSpeed = speed;
         }
 
         public void Tick()

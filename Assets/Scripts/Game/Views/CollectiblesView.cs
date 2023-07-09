@@ -33,13 +33,15 @@ namespace Game.Views
         {
             collectiblesController.OnAdd += Add;
             collectiblesController.OnRemove += Remove;
+            collectiblesController.OnScore += Score;
             collectiblesController.OnUpdatePositions += UpdatePositions;
+            collectiblesController.Initialize();
 
             assetNames = assetsRepository.AssetNames(AssetTag.Collectible);
 
             await assetsService.CacheReferences(assetNames);
 
-            collectiblesController.Initialize();
+            collectiblesController.Start();
         }
 
         public int GetId(Collectible collectible)
@@ -61,8 +63,27 @@ namespace Game.Views
 
         private void Remove(CollectibleModel model)
         {
-            assetsService.Release(instances[model.Id]);
+            Collectible instance = instances[model.Id];
+
             instances.Remove(model.Id);
+
+            assetsService.Release(instance);
+        }
+
+        private void Score(CollectibleModel model)
+        {
+            ScoreAsync(model).Forget();
+        }
+
+        private async UniTask ScoreAsync(CollectibleModel model)
+        {
+            Collectible instance = instances[model.Id];
+
+            await instance.Collect();
+
+            instances.Remove(model.Id);
+
+            assetsService.Release(instance);
         }
 
         private void UpdatePositions(List<CollectibleModel> models)
@@ -75,6 +96,7 @@ namespace Game.Views
         {
             collectiblesController.OnAdd -= Add;
             collectiblesController.OnRemove -= Remove;
+            collectiblesController.OnScore -= Score;
             collectiblesController.OnUpdatePositions -= UpdatePositions;
         }
     }

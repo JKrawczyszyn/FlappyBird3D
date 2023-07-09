@@ -1,4 +1,5 @@
 using System;
+using Game.Models;
 using Utilities.States;
 using Zenject;
 
@@ -15,6 +16,11 @@ namespace Game.Controllers
         public GameplayState CurrentState => stateMachine.CurrentState;
 
         public void Initialize()
+        {
+            IdProvider.Reset();
+        }
+
+        public void Start()
         {
             stateMachine.Transition<CountdownState>();
         }

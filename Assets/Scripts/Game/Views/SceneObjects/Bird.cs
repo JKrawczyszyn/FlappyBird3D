@@ -29,10 +29,9 @@ namespace Game.Views
             controller.OnSetVelocityY += SetVelocityY;
             controller.OnAddForce += AddForce;
             controller.OnClampVelocityX += ClampVelocityX;
+            controller.Initialize();
 
             rigidbody.isKinematic = true;
-
-            controller.Initialize();
         }
 
         private void StartFly()
@@ -68,11 +67,6 @@ namespace Game.Views
         {
             var clamped = Mathf.Clamp(rigidbody.velocity.x, min, max);
             rigidbody.velocity = new Vector3(clamped, rigidbody.velocity.y, 0f);
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            collisionResolver.BirdCollision(other);
         }
 
         private void OnCollisionEnter(Collision other)

@@ -56,7 +56,7 @@ namespace Game.Views
         {
             countdownText.gameObject.SetActive(true);
 
-            await countdownText.AnimateCount(time, 0f, time);
+            await countdownText.AnimateCount(time, 0f, time, gameObject.GetCancellationTokenOnDestroy());
 
             countdownText.gameObject.SetActive(false);
         }

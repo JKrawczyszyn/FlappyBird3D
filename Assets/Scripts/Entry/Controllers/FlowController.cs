@@ -10,7 +10,7 @@ namespace Entry.Controllers
         [Inject]
         private readonly StateMachine<FlowState> stateMachine;
 
-        public void Initialize()
+        public void Start()
         {
             stateMachine.Transition<LoadMenuState>();
         }

@@ -1,3 +1,4 @@
+using Entry.Models;
 using Menu.Controllers;
 using TMPro;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Menu.Views
     public class HighScoresPanel : MonoBehaviour, IPanel
     {
         [SerializeField]
-        private TextMeshProUGUI textPrefab;
+        private HighScoresEntry entryPrefab;
 
         [SerializeField]
         private TextMeshProUGUI titleText;
@@ -26,12 +27,11 @@ namespace Menu.Views
         {
             titleText.text = context.Title;
 
-            var i = 1;
+            var place = 1;
             foreach (var score in context.HighScores)
-                AddText($"{i++}. {score}");
+                AddText(place++, score);
 
             button.GetComponentInChildren<TextMeshProUGUI>().text = context.ButtonLabel;
-
             button.onClick.AddListener(() =>
                                        {
                                            button.interactable = false;
@@ -39,10 +39,10 @@ namespace Menu.Views
                                        });
         }
 
-        private void AddText(string label)
+        private void AddText(int place, Score score)
         {
-            var instance = Instantiate(textPrefab, container);
-            instance.text = label;
+            var instance = Instantiate(entryPrefab, container);
+            instance.Initialize(place, score);
         }
 
         public void Back()

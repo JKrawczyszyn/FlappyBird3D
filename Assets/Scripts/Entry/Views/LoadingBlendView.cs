@@ -27,12 +27,12 @@ namespace Entry.Views
         {
             panel.gameObject.SetActive(true);
 
-            await panel.AnimateAlpha(0f, 1f, 0.2f);
+            await panel.AnimateAlpha(0f, 1f, 0.2f, gameObject.GetCancellationTokenOnDestroy());
         }
 
         private async UniTask FadeOut()
         {
-            await panel.AnimateAlpha(1f, 0f, 0.2f);
+            await panel.AnimateAlpha(1f, 0f, 0.2f, gameObject.GetCancellationTokenOnDestroy());
 
             panel.gameObject.SetActive(false);
         }

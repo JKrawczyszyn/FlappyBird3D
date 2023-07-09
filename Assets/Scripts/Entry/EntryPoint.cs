@@ -12,13 +12,14 @@ namespace Entry
         [Inject]
         private Config config;
 
-        private void Start()
+        [Inject]
+        public void Construct()
         {
             Debug.Log("Start EntryPoint.");
 
             SetParameters();
 
-            flowController.Initialize();
+            flowController.Start();
         }
 
         private void SetParameters()

@@ -34,8 +34,6 @@ namespace Utilities.States
                 states.Add(type, state);
             }
 
-            Debug.Log($"Enqueue state '{type.Name}'.");
-
             pendingTransitions.Enqueue((type, data));
 
             StartIfShould();

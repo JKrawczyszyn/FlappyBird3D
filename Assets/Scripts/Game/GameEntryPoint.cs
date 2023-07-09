@@ -19,18 +19,16 @@ namespace Game
         [Inject]
         private GameplayController gameplayController;
 
-        private async void Start()
+        [Inject]
+        public async UniTaskVoid Construct()
         {
             Debug.Log("Start GameEntryPoint.");
 
-            await Initialize();
-        }
+            gameplayController.Initialize();
 
-        private async UniTask Initialize()
-        {
             await assetsService.WaitForCache(assetsRepository.AssetNamesForScene(SceneName.Game));
 
-            gameplayController.Initialize();
+            gameplayController.Start();
         }
     }
 }

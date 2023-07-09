@@ -27,6 +27,8 @@ namespace Game.Controllers
             remove => movingObjectsController.OnRemove -= value;
         }
 
+        public event Action<CollectibleModel> OnScore;
+
         public event Action<List<CollectibleModel>> OnUpdatePositions
         {
             add => movingObjectsController.OnUpdatePositions += value;
@@ -51,6 +53,11 @@ namespace Game.Controllers
             movingObjectsController.Initialize(config.collectiblesConfig, GetModel);
         }
 
+        public void Start()
+        {
+            movingObjectsController.Start();
+        }
+
         private CollectibleModel GetModel(float position)
         {
             var cfg = config.collectiblesConfig;
@@ -62,10 +69,10 @@ namespace Game.Controllers
             return new CollectibleModel(id, type, new Vector3(xPosition, yPosition, position));
         }
 
-        public void Remove(int id)
+        public void Score(int id)
         {
             CollectibleModel model = movingObjectsController.Models.First(m => m.Id == id);
-            movingObjectsController.RemoveModel(model);
+            OnScore?.Invoke(model);
         }
     }
 }

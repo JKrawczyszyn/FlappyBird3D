@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77ba04024b3c7e2479aebe08e7c0cc2d
+    m_Address: HighScoresEntry
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 382c9e038df701146b06ef740d93bd7c, type: 2}
   m_SchemaSet:

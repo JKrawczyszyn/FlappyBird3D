@@ -38,12 +38,13 @@ namespace Game.Views
             obstaclesController.OnRemove += Remove;
             obstaclesController.OnUpdatePositions += UpdatePositions;
             obstaclesController.OnPassedPlayer += PassedPlayer;
+            obstaclesController.Initialize();
 
             assetNames = assetsRepository.AssetNames(AssetTag.Obstacle);
 
             await assetsService.CacheReferences(assetNames);
 
-            obstaclesController.Initialize();
+            obstaclesController.Start();
         }
 
         private void Add(ObstacleModel model)

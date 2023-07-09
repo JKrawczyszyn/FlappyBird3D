@@ -22,11 +22,8 @@ namespace Game.Views
 
         public void BirdCollision(Collision other)
         {
-            BirdCollision(other.collider);
-        }
+            var collider = other.collider;
 
-        public void BirdCollision(Collider collider)
-        {
             if (gameplayController.CurrentState is not StartGameState)
                 return;
 
@@ -40,9 +37,11 @@ namespace Game.Views
 
                 int id = collectiblesView.GetId(collectible);
 
-                Assert.IsTrue(id > 0, $"Collectible id '{id}' is invalid.");
+                if (id < 0)
+                    // Duplicate collision detected.
+                    return;
 
-                collectiblesController.Remove(id);
+                collectiblesController.Score(id);
 
                 scoreController.AddScore();
             }

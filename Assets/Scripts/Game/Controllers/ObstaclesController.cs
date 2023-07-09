@@ -51,6 +51,11 @@ namespace Game.Controllers
             movingObjectsController.Initialize(config.obstaclesConfig, GetModel);
         }
 
+        public void Start()
+        {
+            movingObjectsController.Start();
+        }
+
         private ObstacleModel GetModel(float position)
         {
             int id = IdProvider.GetNextId();

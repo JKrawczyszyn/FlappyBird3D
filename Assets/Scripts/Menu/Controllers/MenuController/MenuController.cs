@@ -14,7 +14,7 @@ namespace Menu.Controllers
         [Inject]
         private readonly StateMachine<MenuState> stateMachine;
 
-        public void Initialize()
+        public void Start()
         {
             stateMachine.Transition<SetHighScoreState>();
         }

@@ -19,18 +19,14 @@ namespace Menu
         [Inject]
         private MenuController menuController;
 
-        private async void Start()
+        [Inject]
+        public async UniTaskVoid Construct()
         {
             Debug.Log("Start MenuEntryPoint.");
 
-            await Initialize();
-        }
-
-        private async UniTask Initialize()
-        {
             await assetsService.WaitForCache(assetsRepository.AssetNamesForScene(SceneName.Menu));
 
-            menuController.Initialize();
+            menuController.Start();
         }
     }
 }

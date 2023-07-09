@@ -15,7 +15,5 @@ namespace Entry.Models
             timeTicks = time.Ticks;
             this.name = name;
         }
-
-        public override string ToString() => $"{name}: {value} - {new DateTime(timeTicks)}";
     }
 }
