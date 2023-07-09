@@ -73,7 +73,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa2f8a5fb1c66dd4f9a719ef2b174331
-    m_Address: Collectible3
+    m_Address: Collectible2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -122,8 +122,58 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5e5fe13d97be829478757c3d8da5c54a
-    m_Address: Collectible2
+  - m_GUID: e76e9d2381988c344919399692c232cb
+    m_Address: Walls2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 488b548891eba9f47bd41dacd23174ab
+    m_Address: ObstacleRight
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f708ee052a8b6304a893118b49869a70
+    m_Address: ObstacleLeft
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7e090dc06cb704f4da7eca8204eecc99
+    m_Address: Collectible
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d285d0f9538205348bed86baed24b763
+    m_Address: Bird
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0139d560a177e2841b93a3aa9ede031b
+    m_Address: Shift3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 482f682b88e0b1241b9a9ee00e0fb900
+    m_Address: Shift2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e9cad13a898873e4d9ab4e4c8da8fd60
+    m_Address: Shift
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6fe1a8e693acbf0439517a1c23335a9f
+    m_Address: Flap
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24033ff049bbfa94fa1a8b8ee5a3fe90
+    m_Address: Turn
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1537a9ac06f13824caac6c19a044d900
+    m_Address: Obstacle_03
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

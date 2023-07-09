@@ -40,9 +40,6 @@ MonoBehaviour:
   - name: Collectible2
     assetTag: 4
     sceneName: 2
-  - name: Collectible3
-    assetTag: 4
-    sceneName: 2
   - name: MenuPanel
     assetTag: 5
     sceneName: 1
@@ -81,4 +78,7 @@ MonoBehaviour:
     sceneName: 2
   - name: Bird3
     assetTag: 1
+    sceneName: 2
+  - name: Walls2
+    assetTag: 2
     sceneName: 2
