@@ -11,11 +11,11 @@ namespace Entry
 
         public string[] AssetNames(AssetTag assetTag) => assets.FilterWithTag(assetTag).Select(a => a.name).ToArray();
 
-        public int AssetCount(AssetTag assetTag) => assets.Count(a => a.tag == assetTag);
+        public int AssetCount(AssetTag assetTag) => assets.Count(a => a.assetTag == assetTag);
 
         public string[] AssetNamesForScene(SceneName name) =>
-            assets.Where(a => a.sceneTags.Contains(name)).Select(a => a.name).ToArray();
+            assets.Where(a => a.sceneName == name).Select(a => a.name).ToArray();
 
-        public Asset[] AssetsForScene(SceneName menu) => assets.Where(a => a.sceneTags.Contains(menu)).ToArray();
+        public Asset[] AssetsForScene(SceneName name) => assets.Where(a => a.sceneName == name).ToArray();
     }
 }

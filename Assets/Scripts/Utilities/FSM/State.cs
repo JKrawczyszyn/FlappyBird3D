@@ -7,7 +7,6 @@ namespace Utilities.FSM
         object Data { set; }
 
         UniTask OnEnter();
-        UniTask OnExit();
     }
 
     public abstract class State : IState
@@ -15,11 +14,6 @@ namespace Utilities.FSM
         public object Data { protected get; set; }
 
         public virtual async UniTask OnEnter()
-        {
-            await UniTask.Yield();
-        }
-
-        public virtual async UniTask OnExit()
         {
             await UniTask.Yield();
         }

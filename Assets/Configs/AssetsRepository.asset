@@ -13,42 +13,63 @@ MonoBehaviour:
   m_Name: AssetsRepository
   m_EditorClassIdentifier: 
   assets:
-  - tag: 1
-    sceneTags: 02000000
-    name: Bird
-  - tag: 1
-    sceneTags: 02000000
-    name: Bird2
-  - tag: 2
-    sceneTags: 02000000
-    name: Walls
-  - tag: 3
-    sceneTags: 02000000
-    name: ObstacleDown
-  - tag: 3
-    sceneTags: 02000000
-    name: ObstacleUp
-  - tag: 3
-    sceneTags: 02000000
-    name: ObstacleLeft
-  - tag: 3
-    sceneTags: 02000000
-    name: ObstacleRight
-  - tag: 3
-    sceneTags: 02000000
-    name: ObstacleUpDown
-  - tag: 3
-    sceneTags: 02000000
-    name: ObstacleLeftRight
-  - tag: 4
-    sceneTags: 02000000
-    name: Collectible
-  - tag: 5
-    sceneTags: 01000000
-    name: MenuPanel
-  - tag: 6
-    sceneTags: 01000000
-    name: HighScoresPanel
-  - tag: 7
-    sceneTags: 01000000
-    name: EnterHighScorePanel
+  - name: Bird
+    assetTag: 1
+    sceneName: 2
+  - name: Bird2
+    assetTag: 1
+    sceneName: 2
+  - name: Walls
+    assetTag: 2
+    sceneName: 2
+  - name: ObstacleDown
+    assetTag: 3
+    sceneName: 2
+  - name: ObstacleUp
+    assetTag: 3
+    sceneName: 2
+  - name: ObstacleLeft
+    assetTag: 3
+    sceneName: 2
+  - name: ObstacleRight
+    assetTag: 3
+    sceneName: 2
+  - name: ObstacleUpDown
+    assetTag: 3
+    sceneName: 2
+  - name: ObstacleLeftRight
+    assetTag: 3
+    sceneName: 2
+  - name: Collectible
+    assetTag: 4
+    sceneName: 2
+  - name: MenuPanel
+    assetTag: 5
+    sceneName: 1
+  - name: HighScoresPanel
+    assetTag: 6
+    sceneName: 1
+  - name: EnterHighScorePanel
+    assetTag: 7
+    sceneName: 1
+  - name: Obstacle_01
+    assetTag: 3
+    sceneName: 2
+  - name: Obstacle_02
+    assetTag: 3
+    sceneName: 2
+  - name: Obstacle_03
+    assetTag: 3
+    sceneName: 2
+  - name: Obstacle_04
+    assetTag: 3
+    sceneName: 2
+  - name: Obstacle_05
+    assetTag: 3
+    sceneName: 2
+  - name: Obstacle_06
+    assetTag: 3
+    sceneName: 2
+  - name: Obstacle_07
+    assetTag: 3
+    sceneName: 2

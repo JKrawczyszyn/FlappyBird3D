@@ -45,7 +45,14 @@ namespace Game.Controllers
 
             await gameInputController.WaitForInteraction();
 
+            LoadMenu();
+        }
+
+        private void LoadMenu()
+        {
             flowController.LoadMenu(score);
+
+            StateMachine.Stop();
         }
     }
 }

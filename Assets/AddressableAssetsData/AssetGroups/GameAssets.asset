@@ -82,6 +82,41 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6a15c665b63e4d24ebc9491415df4def
+    m_Address: Obstacle_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc0df89dcfe687c40ace1bf5d968afb2
+    m_Address: Obstacle_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 680d9ff9a46a7634294864b940d7f4ab
+    m_Address: Obstacle_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d489c7765e003094f91129ce17dd3980
+    m_Address: Obstacle_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c03a58496369cfe4dafeee4cff3ad913
+    m_Address: Obstacle_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e87a84ef5bd159e48a8a505031095f9a
+    m_Address: Obstacle_06
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ae048a32dab543488d5907f6bc30d94
+    m_Address: Obstacle_07
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 382c9e038df701146b06ef740d93bd7c, type: 2}
   m_SchemaSet:

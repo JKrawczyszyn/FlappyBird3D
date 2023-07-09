@@ -77,15 +77,7 @@ namespace Utilities.FSM
         private async UniTask ChangeTo(Type type, object data)
         {
             if (CurrentState != null)
-            {
-                T previousState = CurrentState;
-
                 Debug.Log($"Change state from '{CurrentState.GetType().Name}'.");
-
-                await previousState.OnExit();
-
-                CurrentState = null;
-            }
 
             var success = states.TryGetValue(type, out T nextState);
             Assert.IsTrue(success, $"State '{type.Name}' is not registered to state machine.");
