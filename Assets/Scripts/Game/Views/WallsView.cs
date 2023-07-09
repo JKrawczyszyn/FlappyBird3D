@@ -5,7 +5,6 @@ using Entry.Models;
 using Entry.Services;
 using Game.Controllers;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Game.Views
@@ -14,6 +13,9 @@ namespace Game.Views
     {
         [SerializeField]
         private Transform container;
+
+        [Inject]
+        private RandomService randomService;
 
         [Inject]
         private AssetsRepository assetsRepository;
@@ -56,7 +58,7 @@ namespace Game.Views
         {
             for (var i = 0; i < Config.loop; i++)
             {
-                var assetName = assetNames.GetRandom();
+                var assetName = randomService.GetRandom(assetNames);
                 var position = i * Vector3.forward * Config.interval;
                 var instance = assetsService.Instantiate<Walls>(assetName, position, container);
                 instances.Add(instance);

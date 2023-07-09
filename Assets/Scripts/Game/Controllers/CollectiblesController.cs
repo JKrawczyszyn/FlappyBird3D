@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entry;
+using Entry.Models;
+using Entry.Services;
 using Game.Models;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace Game.Controllers
 {
     public class CollectiblesController : IController
     {
+        [Inject]
+        private RandomService randomService;
+
         public event Action<CollectibleModel> OnAdd
         {
             add => movingObjectsController.OnAdd += value;
@@ -35,8 +39,15 @@ namespace Game.Controllers
         [Inject]
         private Config config;
 
+        [Inject]
+        private AssetsRepository assetsRepository;
+
+        private int types;
+
         public void Initialize()
         {
+            types = assetsRepository.AssetCount(AssetTag.Collectible);
+
             movingObjectsController.Initialize(config.collectiblesConfig, GetModel);
         }
 
@@ -44,10 +55,11 @@ namespace Game.Controllers
         {
             var config = (CollectiblesConfig)movingObjectsController.Config;
             int id = IdProvider.GetNextId();
-            float xPosition = Random.Range(config.spawnMin.x, config.spawnMax.x);
-            float yPosition = Random.Range(config.spawnMin.y, config.spawnMax.y);
+            int type = randomService.GetRandom(types);
+            float xPosition = randomService.Range(config.spawnMin.x, config.spawnMax.x);
+            float yPosition = randomService.Range(config.spawnMin.y, config.spawnMax.y);
 
-            return new CollectibleModel(id, new Vector3(xPosition, yPosition, position));
+            return new CollectibleModel(id, type, new Vector3(xPosition, yPosition, position));
         }
 
         public void Remove(int id)

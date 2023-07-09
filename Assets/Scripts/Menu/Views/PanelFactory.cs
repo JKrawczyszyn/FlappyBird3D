@@ -5,13 +5,15 @@ using Entry.Models;
 using Entry.Services;
 using Menu.Controllers;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Menu.Views
 {
     public class PanelFactory
     {
+        [Inject]
+        private RandomService randomService;
+
         [Inject]
         private AssetsRepository assetsRepository;
 
@@ -34,7 +36,7 @@ namespace Menu.Views
             {
                 case HighScoresPanelContext highScoresPanelContext:
                 {
-                    var panelName = assets.FilterWithTag(AssetTag.HighScoresPanel).GetRandom().name;
+                    var panelName = randomService.GetRandom(assets.FilterWithTag(AssetTag.HighScoresPanel)).name;
 
                     var panel = assetsService.Instantiate<HighScoresPanel>(panelName, Vector3.zero, container);
 
@@ -44,7 +46,7 @@ namespace Menu.Views
                 }
                 case MainMenuPanelContext mainMenuPanelContext:
                 {
-                    var panelName = assets.FilterWithTag(AssetTag.MenuPanel).GetRandom().name;
+                    var panelName = randomService.GetRandom(assets.FilterWithTag(AssetTag.MenuPanel)).name;
 
                     var panel = assetsService.Instantiate<MenuPanel>(panelName, Vector3.zero, container);
 
@@ -54,7 +56,7 @@ namespace Menu.Views
                 }
                 case SetHighScorePanelContext setHighScorePanelContext:
                 {
-                    var panelName = assets.FilterWithTag(AssetTag.EnterHighScorePanel).GetRandom().name;
+                    var panelName = randomService.GetRandom(assets.FilterWithTag(AssetTag.EnterHighScorePanel)).name;
 
                     var panel = assetsService.Instantiate<SetHighScorePanel>(panelName, Vector3.zero, container);
 

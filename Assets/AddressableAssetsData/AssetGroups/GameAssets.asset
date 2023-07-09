@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: eeab81beeeef99f4a8416bcdec942f22
   m_SerializeEntries:
-  - m_GUID: 83ab135ff0d0cdc4889b156f20530d97
-    m_Address: GroundMaterial
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5b87f834727d81b469862ea5600745ac
     m_Address: Walls
     m_ReadOnly: 0
@@ -67,18 +62,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 62eaa774798f7f34ba649819c368c095
-    m_Address: Bird
+  - m_GUID: f2e36ddbd3901e94f8b5f8681b8c20f0
+    m_Address: Bird1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4976921e04958e343997eeb335202008
+  - m_GUID: fb4060cafc127c5449c4e1a1443af121
     m_Address: Bird2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 644cb39416350c446832a9078e7f2f2b
-    m_Address: Collectible
+  - m_GUID: aa2f8a5fb1c66dd4f9a719ef2b174331
+    m_Address: Collectible3
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -114,6 +109,21 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ae048a32dab543488d5907f6bc30d94
     m_Address: Obstacle_07
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb074d9bb7f3be1478d09287f84c2364
+    m_Address: Bird3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afddf0ab87dfed84b84d299b936594eb
+    m_Address: Collectible
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e5fe13d97be829478757c3d8da5c54a
+    m_Address: Collectible2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

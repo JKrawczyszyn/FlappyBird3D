@@ -10,15 +10,14 @@ namespace Game.Views
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (meshRenderers == null || meshRenderers.Length <= 0)
-                meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            meshRenderers = GetComponentsInChildren<MeshRenderer>();
         }
 #endif
 
-        public void SetAlpha(float alpha)
+        public void SetAlpha(float value)
         {
             foreach (var meshRenderer in meshRenderers)
-                meshRenderer.material.color = new Color(1f, 1f, 1f, alpha);
+                meshRenderer.material.color = new Color(1f, 1f, 1f, value);
         }
     }
 }

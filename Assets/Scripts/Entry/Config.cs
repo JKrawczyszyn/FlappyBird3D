@@ -7,7 +7,6 @@ namespace Entry
     public class Config : ScriptableObject
     {
         public int frameRate = 60;
-        public float gravity = 40;
         public bool debugMode = false;
 
         public GameplayConfig gameplayConfig;
@@ -20,12 +19,15 @@ namespace Entry
     [Serializable]
     public class GameplayConfig
     {
+        public float gravity = 40;
         public float startSpeed = 10f;
         public float countdownTime = 3f;
         public float endGameInteractionDelay = 2f;
         public int speedUpInterval = 5;
         public float speedUpValue = 2f;
         public float speedUpAcceleration = 1f;
+        public int seed = -1;
+        public float timeScale = 1f;
     }
 
     [Serializable]

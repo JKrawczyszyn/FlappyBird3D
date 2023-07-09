@@ -6,7 +6,6 @@ using Entry.Services;
 using Game.Controllers;
 using Game.Models;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Game.Views
@@ -55,7 +54,7 @@ namespace Game.Views
 
         private void Add(CollectibleModel model)
         {
-            var assetName = assetNames.GetRandom();
+            var assetName = assetNames[model.Type];
             var instance = assetsService.Instantiate<Collectible>(assetName, model.Position, container);
             instances.Add(model.Id, instance);
         }

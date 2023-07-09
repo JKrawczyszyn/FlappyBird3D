@@ -3,7 +3,6 @@ using Entry;
 using Entry.Models;
 using Entry.Services;
 using UnityEngine;
-using Utilities;
 using Zenject;
 
 namespace Game.Views
@@ -12,6 +11,9 @@ namespace Game.Views
     {
         [SerializeField]
         private Transform container;
+
+        [Inject]
+        private RandomService randomService;
 
         [Inject]
         private Context context;
@@ -36,8 +38,8 @@ namespace Game.Views
 
             await assetsService.CacheReferences(assetNames);
 
-            bird = assetsService.Instantiate<Bird>(assetNames.GetRandom(), config.birdConfig.startPosition,
-                                                    container);
+            bird = assetsService.Instantiate<Bird>(randomService.GetRandom(assetNames), config.birdConfig.startPosition,
+                                                   container);
 
             context.Container.Inject(bird);
         }

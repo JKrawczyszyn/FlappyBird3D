@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using Entry;
 using Zenject;
@@ -7,8 +6,6 @@ namespace Game.Controllers
 {
     public class StartGameState : GameplayState
     {
-        public event Action OnStart;
-
         [Inject]
         private BirdController birdController;
 
@@ -22,9 +19,7 @@ namespace Game.Controllers
         {
             speedController.SetSpeed(config.gameplayConfig.startSpeed);
 
-            birdController.EnableInteraction();
-
-            OnStart?.Invoke();
+            birdController.Start();
 
             await UniTask.Yield();
         }

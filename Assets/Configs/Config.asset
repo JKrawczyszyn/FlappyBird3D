@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: Config
   m_EditorClassIdentifier: 
   frameRate: 60
-  gravity: 40
   debugMode: 0
   gameplayConfig:
+    gravity: 40
     startSpeed: 5
     countdownTime: 3
     endGameInteractionDelay: 2
     speedUpInterval: 5
     speedUpValue: 2
     speedUpAcceleration: 1
+    seed: -1
+    timeScale: 1
   birdConfig:
     maxSpeed: 5
     jumpForce: 3

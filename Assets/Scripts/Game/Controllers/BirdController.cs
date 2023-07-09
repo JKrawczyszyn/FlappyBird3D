@@ -7,7 +7,8 @@ namespace Game.Controllers
 {
     public class BirdController : IController, ITickable, IDisposable
     {
-        public event Action<bool> OnSetMovable;
+        public event Action OnStartFly;
+        public event Action OnKill;
         public event Action<float> OnSetMass;
         public event Action<float> OnSetVelocityY;
         public event Action<float, bool> OnAddForce;
@@ -23,22 +24,21 @@ namespace Game.Controllers
         {
             gameInputController.OnBirdJump += Jump;
 
-            OnSetMovable?.Invoke(false);
             OnSetMass?.Invoke(config.birdConfig.mass);
         }
 
-        public void EnableInteraction()
+        public void Start()
         {
             gameInputController.BirdEnable();
 
-            OnSetMovable?.Invoke(true);
+            OnStartFly?.Invoke();
         }
 
-        public void DisableInteraction()
+        public void Kill()
         {
             gameInputController.BirdDisable();
 
-            OnSetMovable?.Invoke(false);
+            OnKill?.Invoke();
         }
 
         private void Jump()

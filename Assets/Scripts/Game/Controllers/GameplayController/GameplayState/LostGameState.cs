@@ -22,6 +22,9 @@ namespace Game.Controllers
         private FlowController flowController;
 
         [Inject]
+        private BirdController birdController;
+
+        [Inject]
         private GameStateService gameStateService;
 
         [Inject]
@@ -39,7 +42,7 @@ namespace Game.Controllers
 
             speedController.SetSpeed(0f);
 
-            gameInputController.BirdDisable();
+            birdController.Kill();
 
             await UniTask.Delay(TimeSpan.FromSeconds(config.gameplayConfig.endGameInteractionDelay));
 

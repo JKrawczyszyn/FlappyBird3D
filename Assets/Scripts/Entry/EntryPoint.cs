@@ -24,7 +24,8 @@ namespace Entry
         private void SetParameters()
         {
             Application.targetFrameRate = config.frameRate;
-            Physics.gravity = Vector3.down * config.gravity;
+            Physics.gravity = Vector3.down * config.gameplayConfig.gravity;
+            Time.timeScale = config.gameplayConfig.timeScale;
         }
     }
 }

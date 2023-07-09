@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: AssetsRepository
   m_EditorClassIdentifier: 
   assets:
-  - name: Bird
-    assetTag: 1
-    sceneName: 2
-  - name: Bird2
-    assetTag: 1
-    sceneName: 2
   - name: Walls
     assetTag: 2
     sceneName: 2
@@ -41,6 +35,12 @@ MonoBehaviour:
     assetTag: 3
     sceneName: 2
   - name: Collectible
+    assetTag: 4
+    sceneName: 2
+  - name: Collectible2
+    assetTag: 4
+    sceneName: 2
+  - name: Collectible3
     assetTag: 4
     sceneName: 2
   - name: MenuPanel
@@ -72,4 +72,13 @@ MonoBehaviour:
     sceneName: 2
   - name: Obstacle_07
     assetTag: 3
+    sceneName: 2
+  - name: Bird1
+    assetTag: 1
+    sceneName: 2
+  - name: Bird2
+    assetTag: 1
+    sceneName: 2
+  - name: Bird3
+    assetTag: 1
     sceneName: 2

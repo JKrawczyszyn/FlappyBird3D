@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Game.Models
 {
-    public record CollectibleModel(int Id) : IMovingObjectModel
+    public record CollectibleModel(int Id, int Type) : IMovingObjectModel
     {
         public Vector3 Position;
 
-        public CollectibleModel(int id, Vector3 position) : this(id)
+        public CollectibleModel(int id, int type, Vector3 position) : this(id, type)
         {
             Position = position;
         }

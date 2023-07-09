@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using Entry;
 using Entry.Models;
+using Entry.Services;
 using Game.Models;
-using Utilities;
 using Zenject;
 
 namespace Game.Controllers
 {
     public class ObstaclesController : IController, ITickable
     {
+        [Inject]
+        private RandomService randomService;
+
         public event Action<ObstacleModel> OnAdd
         {
             add => movingObjectsController.OnAdd += value;
@@ -51,7 +54,7 @@ namespace Game.Controllers
         private ObstacleModel GetModel(float position)
         {
             int id = IdProvider.GetNextId();
-            int type = types.GetRandom();
+            int type = randomService.GetRandom(types);
 
             return new ObstacleModel(id, type, position);
         }

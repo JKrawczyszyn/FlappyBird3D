@@ -9,27 +9,43 @@ namespace Game.Views
         [SerializeField]
         private Rigidbody rigidbody;
 
+        [SerializeField]
+        private Animator animator;
+
         [Inject]
         private CollisionResolver collisionResolver;
 
         [Inject]
         private BirdController controller;
 
+        private static readonly int start = Animator.StringToHash("start");
+
         [Inject]
         private void Construct()
         {
-            controller.OnSetMovable += SetMovable;
+            controller.OnStartFly += StartFly;
+            controller.OnKill += Kill;
             controller.OnSetMass += SetMass;
             controller.OnSetVelocityY += SetVelocityY;
             controller.OnAddForce += AddForce;
             controller.OnClampVelocityX += ClampVelocityX;
 
+            rigidbody.isKinematic = true;
+
             controller.Initialize();
         }
 
-        private void SetMovable(bool value)
+        private void StartFly()
         {
-            rigidbody.isKinematic = !value;
+            rigidbody.isKinematic = false;
+            rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+
+            animator.SetTrigger(start);
+        }
+
+        private void Kill()
+        {
+            rigidbody.constraints = RigidbodyConstraints.None;
         }
 
         private void SetMass(float value)
@@ -66,7 +82,8 @@ namespace Game.Views
 
         private void OnDestroy()
         {
-            controller.OnSetMovable -= SetMovable;
+            controller.OnStartFly -= StartFly;
+            controller.OnKill -= Kill;
             controller.OnSetMass -= SetMass;
             controller.OnSetVelocityY -= SetVelocityY;
             controller.OnAddForce -= AddForce;

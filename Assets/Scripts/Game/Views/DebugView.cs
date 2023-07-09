@@ -36,7 +36,7 @@ namespace Game.Views
         private void UpdateFps(int index)
         {
             smoothedDeltaTime += (Time.deltaTime - smoothedDeltaTime) * 0.1f;
-            var fps = 1.0f / smoothedDeltaTime;
+            var fps = config.gameplayConfig.timeScale / smoothedDeltaTime;
 
             debugTexts[index] = $"FPS: {Mathf.Ceil(fps)}";
         }
