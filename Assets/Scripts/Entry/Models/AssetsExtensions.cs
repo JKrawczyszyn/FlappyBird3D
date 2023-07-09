@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Entry.Models;
 
 namespace Entry.Models
 {

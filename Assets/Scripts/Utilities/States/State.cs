@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace Utilities.FSM
+namespace Utilities.States
 {
     public interface IState
     {

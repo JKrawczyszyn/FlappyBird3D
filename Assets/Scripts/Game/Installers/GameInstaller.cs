@@ -1,7 +1,7 @@
 using Game.Controllers;
 using Game.Models;
 using Utilities;
-using Utilities.FSM;
+using Utilities.States;
 using Zenject;
 
 namespace Game.Installers

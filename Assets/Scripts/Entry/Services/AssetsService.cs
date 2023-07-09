@@ -16,7 +16,7 @@ namespace Entry.Services
         private readonly Dictionary<AssetReference, IObjectPool<GameObject>> referenceToPool = new();
         private readonly Dictionary<string, AssetReference> nameToReference = new();
 
-        public IEnumerable<string> CachedNames => nameToReference.Keys;
+        private IEnumerable<string> CachedNames => nameToReference.Keys;
 
         public async UniTask WaitForCache(string[] names)
         {
@@ -47,7 +47,7 @@ namespace Entry.Services
             return component;
         }
 
-        public GameObject Instantiate(string name, Vector3 position, Transform parent)
+        private GameObject Instantiate(string name, Vector3 position, Transform parent)
         {
             if (nameToReference.TryGetValue(name, out AssetReference reference))
                 return Instantiate(reference, position, parent);
@@ -95,7 +95,7 @@ namespace Entry.Services
             Release(instance.gameObject);
         }
 
-        public void Release(GameObject instance)
+        private void Release(GameObject instance)
         {
             if (instance == null || instance.gameObject == null || !instance.gameObject.activeSelf)
                 return;

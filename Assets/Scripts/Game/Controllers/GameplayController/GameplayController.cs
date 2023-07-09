@@ -1,5 +1,5 @@
 using System;
-using Utilities.FSM;
+using Utilities.States;
 using Zenject;
 
 namespace Game.Controllers

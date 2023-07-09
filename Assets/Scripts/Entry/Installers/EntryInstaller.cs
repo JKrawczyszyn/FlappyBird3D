@@ -2,7 +2,7 @@ using Entry.Controllers;
 using Entry.Services;
 using UnityEngine;
 using Utilities;
-using Utilities.FSM;
+using Utilities.States;
 using Zenject;
 
 namespace Entry.Installers

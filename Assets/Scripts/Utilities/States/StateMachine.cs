@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;
 
-namespace Utilities.FSM
+namespace Utilities.States
 {
     public class StateMachine<T> where T : class, IState
     {
@@ -53,6 +53,8 @@ namespace Utilities.FSM
 
         public void Stop()
         {
+            CurrentState = null;
+
             running = false;
 
             pendingTransitions.Clear();

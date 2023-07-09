@@ -1,6 +1,6 @@
 using System;
 using UnityEngine.InputSystem;
-using Utilities.FSM;
+using Utilities.States;
 using Zenject;
 
 namespace Menu.Controllers

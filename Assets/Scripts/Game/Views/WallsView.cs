@@ -31,8 +31,6 @@ namespace Game.Views
 
         private float moveSpeed;
 
-        private string[] assetNames;
-
         private readonly List<Walls> instances = new();
 
         private WallsConfig Config => config.wallsConfig;
@@ -42,11 +40,12 @@ namespace Game.Views
         {
             speedController.OnSpeedChanged += SpeedChanged;
 
-            assetNames = assetsRepository.AssetNames(AssetTag.Walls);
+            var assetNames = assetsRepository.AssetNames(AssetTag.Walls);
 
             await assetsService.CacheReferences(assetNames);
 
-            CreateInstances();
+            var assetName = randomService.GetRandom(assetNames);
+            CreateInstances(assetName);
         }
 
         private void SpeedChanged(float speed)
@@ -54,11 +53,10 @@ namespace Game.Views
             moveSpeed = speed;
         }
 
-        private void CreateInstances()
+        private void CreateInstances(string assetName)
         {
             for (var i = 0; i < Config.loop; i++)
             {
-                var assetName = randomService.GetRandom(assetNames);
                 var position = i * Vector3.forward * Config.interval;
                 var instance = assetsService.Instantiate<Walls>(assetName, position, container);
                 instances.Add(instance);

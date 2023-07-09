@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Utilities.FSM
+namespace Utilities.States
 {
     public class FSMInstaller<T> : Installer<FSMInstaller<T>> where T : State
     {

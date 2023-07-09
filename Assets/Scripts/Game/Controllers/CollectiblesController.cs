@@ -53,11 +53,11 @@ namespace Game.Controllers
 
         private CollectibleModel GetModel(float position)
         {
-            var config = (CollectiblesConfig)movingObjectsController.Config;
+            var cfg = config.collectiblesConfig;
             int id = IdProvider.GetNextId();
             int type = randomService.GetRandom(types);
-            float xPosition = randomService.Range(config.spawnMin.x, config.spawnMax.x);
-            float yPosition = randomService.Range(config.spawnMin.y, config.spawnMax.y);
+            float xPosition = randomService.Range(cfg.spawnMin.x, cfg.spawnMax.x);
+            float yPosition = randomService.Range(cfg.spawnMin.y, cfg.spawnMax.y);
 
             return new CollectibleModel(id, type, new Vector3(xPosition, yPosition, position));
         }

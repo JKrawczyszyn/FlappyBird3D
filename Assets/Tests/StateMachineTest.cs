@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Zenject;
 using NUnit.Framework;
-using Utilities.FSM;
+using Utilities.States;
 
 [TestFixture]
 public class StateMachineTest : ZenjectUnitTestFixture

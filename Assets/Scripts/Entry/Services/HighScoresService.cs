@@ -14,7 +14,28 @@ namespace Entry.Services
         [Inject]
         private IFileService fileService;
 
-        private List<Score> hiScores = new();
+        private List<Score> highScores = new();
+
+        public void AddHighScore(Score score)
+        {
+            LoadIfShould();
+
+            if (!IsScoreHighEnough(score.value))
+                return;
+
+            highScores.Add(score);
+
+            highScores.Sort((a, b) =>
+                          {
+                              int compareValues = b.value.CompareTo(a.value);
+
+                              return compareValues != 0 ? compareValues : a.timeTicks.CompareTo(b.timeTicks);
+                          });
+
+            highScores = highScores.GetRange(0, Mathf.Min(maxScores, highScores.Count));
+
+            fileService.Save(fileName, highScores);
+        }
 
         public bool IsScoreHighEnough(int score)
         {
@@ -23,41 +44,23 @@ namespace Entry.Services
             if (score <= 0)
                 return false;
 
-            if (hiScores.Count < maxScores)
+            if (highScores.Count < maxScores)
                 return true;
 
-            return score > hiScores[^1].value;
-        }
-
-        public void AddHighScore(Score score)
-        {
-            LoadIfShould();
-
-            hiScores.Add(score);
-
-            hiScores.Sort((a, b) =>
-                          {
-                              int compareValues = b.value.CompareTo(a.value);
-
-                              return compareValues != 0 ? compareValues : a.timeTicks.CompareTo(b.timeTicks);
-                          });
-
-            hiScores = hiScores.GetRange(0, Mathf.Min(maxScores, hiScores.Count));
-
-            fileService.Save(fileName, hiScores);
+            return score > highScores[^1].value;
         }
 
         public IEnumerable<Score> GetHighScores()
         {
             LoadIfShould();
 
-            return hiScores.AsReadOnly();
+            return highScores.AsReadOnly();
         }
 
         private void LoadIfShould()
         {
-            if (hiScores.Count == 0)
-                hiScores = fileService.Load<Score>(fileName).ToList();
+            if (highScores.Count == 0)
+                highScores = fileService.Load<Score>(fileName).ToList();
         }
     }
 }

@@ -38,8 +38,8 @@ namespace Game.Views
 
             await assetsService.CacheReferences(assetNames);
 
-            bird = assetsService.Instantiate<Bird>(randomService.GetRandom(assetNames), config.birdConfig.startPosition,
-                                                   container);
+            var assetName = randomService.GetRandom(assetNames);
+            bird = assetsService.Instantiate<Bird>(assetName, config.birdConfig.startPosition, container);
 
             context.Container.Inject(bird);
         }
