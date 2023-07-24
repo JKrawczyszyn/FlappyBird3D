@@ -1,3 +1,4 @@
+using System;
 using Game.Controllers;
 using UnityEngine;
 using Zenject;
@@ -69,9 +70,14 @@ namespace Game.Views
             rigidbody.velocity = new Vector3(clamped, rigidbody.velocity.y, 0f);
         }
 
+        private void OnTriggerEnter(Collider collider)
+        {
+            collisionResolver.BirdCollision(collider);
+        }
+
         private void OnCollisionEnter(Collision other)
         {
-            collisionResolver.BirdCollision(other);
+            collisionResolver.BirdCollision(other.collider);
         }
 
         private void OnDestroy()

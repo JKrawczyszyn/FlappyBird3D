@@ -20,10 +20,8 @@ namespace Game.Views
         [Inject]
         private ScoreController scoreController;
 
-        public void BirdCollision(Collision other)
+        public void BirdCollision(Collider collider)
         {
-            var collider = other.collider;
-
             if (gameplayController.CurrentState is not StartGameState)
                 return;
 
@@ -37,9 +35,7 @@ namespace Game.Views
 
                 int id = collectiblesView.GetId(collectible);
 
-                if (id < 0)
-                    // Duplicate collision detected.
-                    return;
+                Assert.IsTrue(id >= 0, $"Collectible id is invalid '{id}'.");
 
                 collectiblesController.Score(id);
 
