@@ -25,6 +25,11 @@ namespace Entry.Controllers
             stateMachine.Transition<LoadGameState>();
         }
 
+        public void ExitGame()
+        {
+            stateMachine.Transition<ExitGameState>();
+        }
+
         public void Dispose()
         {
             stateMachine.Stop();

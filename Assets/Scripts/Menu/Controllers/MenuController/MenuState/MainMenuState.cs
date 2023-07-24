@@ -15,7 +15,7 @@ namespace Menu.Controllers
 
         public override async UniTask OnEnter()
         {
-            var context = new MainMenuPanelContext("Flappy Bird 3D", "Start Game", "High Scores");
+            var context = new MainMenuPanelContext("Flappy Bird 3D", "Start Game", "High Scores", "Exit");
 
             menuController.OpenPanel(context);
 
@@ -28,6 +28,9 @@ namespace Menu.Controllers
                     break;
                 case 1:
                     LoadHighScore();
+                    break;
+                case 2:
+                    ExitGame();
                     break;
                 default:
                     throw new ArgumentException($"Button index '{result}' not supported.");
@@ -44,6 +47,11 @@ namespace Menu.Controllers
         private void LoadHighScore()
         {
             StateMachine.Transition<HighScoresState>();
+        }
+
+        private void ExitGame()
+        {
+            flowController.ExitGame();
         }
     }
 }
